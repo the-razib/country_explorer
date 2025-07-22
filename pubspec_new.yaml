@@ -1,0 +1,56 @@
+name: country_explorer_app
+description: "A comprehensive country information app using REST Countries API"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '^3.8.0'
+  flutter: ">=3.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # State Management
+  get: ^4.6.6
+  
+  # Networking
+  dio: ^5.4.0
+  connectivity_plus: ^5.0.2
+  
+  # Local Storage
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  
+  # UI Components
+  cached_network_image: ^3.3.1
+  flutter_staggered_grid_view: ^0.7.0
+  fl_chart: ^0.66.2
+  shimmer: ^3.0.0
+  lottie: ^2.7.0
+  
+  # Utilities
+  logger: ^2.0.2+1
+  flutter_easyloading: ^3.0.5
+  intl: ^0.19.0
+  url_launcher: ^6.2.4
+  share_plus: ^7.2.2
+  
+  # Fonts & Icons
+  google_fonts: ^6.1.0
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  hive_generator: ^2.0.1
+  build_runner: ^2.4.7
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/images/
+    - assets/animations/
