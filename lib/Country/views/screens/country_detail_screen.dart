@@ -6,7 +6,7 @@ import '../../models/country_model.dart';
 import '../../controllers/country_controller.dart';
 import '../../controllers/achievement_controller.dart';
 
-/// Detailed view screen for a specific country
+/// Detailed view screen for a specific country with modern design
 class CountryDetailScreen extends StatelessWidget {
   final Country country;
 
@@ -22,26 +22,30 @@ class CountryDetailScreen extends StatelessWidget {
     achievementController.recordCountryView(country.name.common);
 
     return Scaffold(
+      backgroundColor: Colors.grey[50],
       body: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
         slivers: [
-          _buildSliverAppBar(context, controller),
+          _buildModernSliverAppBar(context, controller),
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildBasicInfo(context),
+                  _buildModernBasicInfo(context),
                   const SizedBox(height: 24),
-                  _buildGeographySection(context),
+                  _buildModernStatsCards(context),
                   const SizedBox(height: 24),
-                  _buildCurrencySection(context),
+                  _buildModernGeographySection(context),
                   const SizedBox(height: 24),
-                  _buildLanguageSection(context),
+                  _buildModernCurrencySection(context),
                   const SizedBox(height: 24),
-                  _buildBordersSection(context, controller),
+                  _buildModernLanguageSection(context),
                   const SizedBox(height: 24),
-                  _buildActionButtons(context),
+                  _buildModernBordersSection(context, controller),
+                  const SizedBox(height: 24),
+                  _buildModernActionButtons(context),
                   const SizedBox(height: 32),
                 ],
               ),
@@ -52,43 +56,65 @@ class CountryDetailScreen extends StatelessWidget {
     );
   }
 
-  /// Build the sliver app bar with country flag
-  Widget _buildSliverAppBar(
+  /// Build modern sliver app bar with enhanced design
+  Widget _buildModernSliverAppBar(
     BuildContext context,
     CountryController controller,
   ) {
     return SliverAppBar(
-      expandedHeight: 300.0,
+      expandedHeight: 320.0,
       floating: false,
       pinned: true,
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      leading: Container(
+        margin: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.black.withOpacity(0.3),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: IconButton(
+          icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
+          onPressed: () => Get.back(),
+        ),
+      ),
       flexibleSpace: FlexibleSpaceBar(
-        title: Text(
-          country.name.common,
-          style: const TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            shadows: [
-              Shadow(
-                offset: Offset(1, 1),
-                blurRadius: 2,
-                color: Colors.black54,
-              ),
-            ],
+        title: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: Colors.black.withOpacity(0.5),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Text(
+            country.name.common,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.w700,
+              fontSize: 16,
+            ),
           ),
         ),
+        titlePadding: const EdgeInsets.only(left: 16, bottom: 16),
         background: Stack(
           fit: StackFit.expand,
           children: [
-            CachedNetworkImage(
-              imageUrl: country.flags.png,
-              fit: BoxFit.cover,
-              placeholder: (context, url) => Container(
-                color: Colors.grey[300],
-                child: const Center(child: CircularProgressIndicator()),
-              ),
-              errorWidget: (context, url, error) => Container(
-                color: Colors.grey[300],
-                child: const Icon(Icons.error),
+            Hero(
+              tag: 'flag_${country.name.common}',
+              child: CachedNetworkImage(
+                imageUrl: country.flags.png,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Container(
+                  color: Colors.grey[300],
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                ),
+                errorWidget: (context, url, error) => Container(
+                  color: Colors.grey[300],
+                  child: const Icon(Icons.flag_rounded, size: 64, color: Colors.grey),
+                ),
               ),
             ),
             Container(
@@ -96,7 +122,12 @@ class CountryDetailScreen extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  colors: [Colors.transparent, Colors.black.withOpacity(0.7)],
+                  colors: [
+                    Colors.transparent,
+                    Colors.black.withOpacity(0.3),
+                    Colors.black.withOpacity(0.8),
+                  ],
+                  stops: const [0.0, 0.6, 1.0],
                 ),
               ),
             ),
@@ -104,278 +135,798 @@ class CountryDetailScreen extends StatelessWidget {
         ),
       ),
       actions: [
-        Obx(
-          () => IconButton(
-            icon: Icon(
-              controller.isFavorite(country)
-                  ? Icons.favorite
-                  : Icons.favorite_border,
-              color: controller.isFavorite(country) ? Colors.red : Colors.white,
+        Container(
+          margin: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.black.withOpacity(0.3),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Obx(
+            () => IconButton(
+              icon: Icon(
+                controller.isFavorite(country)
+                    ? Icons.favorite_rounded
+                    : Icons.favorite_border_rounded,
+                color: controller.isFavorite(country) ? Colors.red : Colors.white,
+              ),
+              onPressed: () => controller.toggleFavorite(country),
             ),
-            onPressed: () => controller.toggleFavorite(country),
           ),
         ),
-        IconButton(
-          icon: const Icon(Icons.share),
-          onPressed: () => _shareCountry(),
+        Container(
+          margin: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.black.withOpacity(0.3),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: IconButton(
+            icon: const Icon(Icons.share_rounded, color: Colors.white),
+            onPressed: () => _shareCountry(),
+          ),
         ),
       ],
     );
   }
 
-  /// Build basic country information
-  Widget _buildBasicInfo(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Basic Information',
-              style: Theme.of(
-                context,
-              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            _buildInfoRow('Official Name', country.name.official),
-            _buildInfoRow(
-              'Capital',
-              country.capital.isNotEmpty ? country.capital.join(', ') : 'N/A',
-            ),
-            _buildInfoRow('Region', country.region),
-            _buildInfoRow('Subregion', country.subregion),
-            _buildInfoRow('Population', country.formattedPopulation),
-            if (country.area != null)
-              _buildInfoRow('Area', '${country.area!.toStringAsFixed(0)} km²'),
-          ],
-        ),
+  /// Build modern basic country information with enhanced design
+  Widget _buildModernBasicInfo(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(24.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 20,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
-    );
-  }
-
-  /// Build geography section
-  Widget _buildGeographySection(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Geography',
-              style: Theme.of(
-                context,
-              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            if (country.latlng != null && country.latlng!.length >= 2)
-              _buildInfoRow(
-                'Coordinates',
-                '${country.latlng![0].toStringAsFixed(4)}, ${country.latlng![1].toStringAsFixed(4)}',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).primaryColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Icon(
+                  Icons.info_outline_rounded,
+                  color: Theme.of(context).primaryColor,
+                  size: 24,
+                ),
               ),
-            if (country.timezones.isNotEmpty)
-              _buildInfoRow('Timezones', country.timezones.join(', ')),
-          ],
-        ),
+              const SizedBox(width: 16),
+              Text(
+                'Basic Information',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.grey[800],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          _buildModernInfoRow(
+            'Official Name',
+            country.name.official,
+            Icons.verified_rounded,
+            Colors.blue,
+          ),
+          _buildModernInfoRow(
+            'Capital',
+            country.capital.isNotEmpty ? country.capital.join(', ') : 'N/A',
+            Icons.location_city_rounded,
+            Colors.orange,
+          ),
+          _buildModernInfoRow(
+            'Region',
+            '${country.region} • ${country.subregion}',
+            Icons.public_rounded,
+            Colors.green,
+          ),
+          _buildModernInfoRow(
+            'Population',
+            country.formattedPopulation,
+            Icons.people_rounded,
+            Colors.purple,
+          ),
+          if (country.area != null)
+            _buildModernInfoRow(
+              'Area',
+              '${country.area!.toStringAsFixed(0)} km²',
+              Icons.landscape_rounded,
+              Colors.teal,
+            ),
+        ],
       ),
     );
   }
 
-  /// Build currency section
-  Widget _buildCurrencySection(BuildContext context) {
+  /// Build modern stats cards for quick overview
+  Widget _buildModernStatsCards(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.blue, Colors.blue.withOpacity(0.8)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.blue.withOpacity(0.3),
+                  blurRadius: 15,
+                  offset: const Offset(0, 6),
+                ),
+              ],
+            ),
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: const Icon(
+                    Icons.people_rounded,
+                    color: Colors.white,
+                    size: 28,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  'Population',
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.9),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  country.formattedPopulation,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(width: 16),
+        Expanded(
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.orange, Colors.orange.withOpacity(0.8)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.orange.withOpacity(0.3),
+                  blurRadius: 15,
+                  offset: const Offset(0, 6),
+                ),
+              ],
+            ),
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: const Icon(
+                    Icons.landscape_rounded,
+                    color: Colors.white,
+                    size: 28,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  'Area',
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.9),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  country.area != null 
+                      ? '${country.area!.toStringAsFixed(0)} km²'
+                      : 'N/A',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  /// Build modern information row with icon and styling
+  Widget _buildModernInfoRow(String label, String value, IconData icon, Color color) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.05),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: color.withOpacity(0.1),
+          width: 1,
+        ),
+      ),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(icon, color: color, size: 20),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey[600],
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  value,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey[800],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Build modern geography section with enhanced design
+  Widget _buildModernGeographySection(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(24.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 20,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.green.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: const Icon(
+                  Icons.explore_rounded,
+                  color: Colors.green,
+                  size: 24,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Text(
+                'Geography',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.grey[800],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          if (country.latlng != null && country.latlng!.length >= 2)
+            _buildModernInfoRow(
+              'Coordinates',
+              '${country.latlng![0].toStringAsFixed(4)}, ${country.latlng![1].toStringAsFixed(4)}',
+              Icons.my_location_rounded,
+              Colors.red,
+            ),
+          if (country.timezones.isNotEmpty)
+            _buildModernInfoRow(
+              'Timezones',
+              country.timezones.length == 1 
+                  ? country.timezones.first
+                  : '${country.timezones.length} zones',
+              Icons.access_time_rounded,
+              Colors.indigo,
+            ),
+        ],
+      ),
+    );
+  }
+
+  /// Build modern currency section with enhanced design
+  Widget _buildModernCurrencySection(BuildContext context) {
     if (country.currencies.isEmpty) return const SizedBox();
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Currencies',
-              style: Theme.of(
-                context,
-              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            ...country.currencies.entries
-                .map(
-                  (entry) => Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: Row(
+    return Container(
+      padding: const EdgeInsets.all(24.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 20,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.amber.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: const Icon(
+                  Icons.monetization_on_rounded,
+                  color: Colors.amber,
+                  size: 24,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Text(
+                'Currencies',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.grey[800],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          ...country.currencies.entries.map(
+            (entry) => Container(
+              margin: const EdgeInsets.only(bottom: 16),
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.amber.withOpacity(0.1),
+                    Colors.amber.withOpacity(0.05),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: Colors.amber.withOpacity(0.2),
+                  width: 1,
+                ),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.amber,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      entry.key,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 4,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Theme.of(
-                              context,
-                            ).primaryColor.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(4),
-                          ),
-                          child: Text(
-                            entry.key,
-                            style: const TextStyle(fontWeight: FontWeight.bold),
+                        Text(
+                          entry.value.name,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.grey[800],
                           ),
                         ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: Text(
-                            '${entry.value.name} (${entry.value.symbol})',
-                            style: Theme.of(context).textTheme.bodyLarge,
+                        const SizedBox(height: 4),
+                        Text(
+                          'Symbol: ${entry.value.symbol}',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey[600],
                           ),
                         ),
                       ],
                     ),
                   ),
-                )
-                .toList(),
-          ],
-        ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  /// Build language section
-  Widget _buildLanguageSection(BuildContext context) {
+  /// Build modern language section with enhanced design
+  Widget _buildModernLanguageSection(BuildContext context) {
     if (country.languages.isEmpty) return const SizedBox();
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Languages',
-              style: Theme.of(
-                context,
-              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: country.languages.entries
-                  .map(
-                    (language) => Chip(
-                      label: Text(language.value),
-                      backgroundColor: Theme.of(
-                        context,
-                      ).primaryColor.withOpacity(0.1),
+    return Container(
+      padding: const EdgeInsets.all(24.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 20,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.purple.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: const Icon(
+                  Icons.translate_rounded,
+                  color: Colors.purple,
+                  size: 24,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Text(
+                'Languages',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.grey[800],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          Wrap(
+            spacing: 12,
+            runSpacing: 12,
+            children: country.languages.entries.map(
+              (language) => Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.purple.withOpacity(0.1),
+                      Colors.purple.withOpacity(0.05),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: Colors.purple.withOpacity(0.2),
+                    width: 1,
+                  ),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 8,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        color: Colors.purple,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
                     ),
-                  )
-                  .toList(),
-            ),
-          ],
-        ),
+                    const SizedBox(width: 8),
+                    Text(
+                      language.value,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.grey[800],
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ).toList(),
+          ),
+        ],
       ),
     );
   }
 
-  /// Build borders section
-  Widget _buildBordersSection(
+  /// Build modern borders section with enhanced design
+  Widget _buildModernBordersSection(
     BuildContext context,
     CountryController controller,
   ) {
     if (country.borders.isEmpty) return const SizedBox();
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Border Countries',
-              style: Theme.of(
-                context,
-              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: country.borders
-                  .map(
-                    (border) => ActionChip(
-                      label: Text(border),
-                      onPressed: () => _onBorderCountryTap(border, controller),
-                    ),
-                  )
-                  .toList(),
-            ),
-          ],
-        ),
+    return Container(
+      padding: const EdgeInsets.all(24.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 20,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
-    );
-  }
-
-  /// Build action buttons
-  Widget _buildActionButtons(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Actions',
-              style: Theme.of(
-                context,
-              ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton.icon(
-                    onPressed: () => _openGoogleMaps(),
-                    icon: const Icon(Icons.map),
-                    label: const Text('View on Map'),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: OutlinedButton.icon(
-                    onPressed: () => _openWikipedia(),
-                    icon: const Icon(Icons.info_outline),
-                    label: const Text('Wikipedia'),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  /// Build information row widget
-  Widget _buildInfoRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12.0),
-      child: Row(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            width: 120,
-            child: Text(
-              label,
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                color: Colors.grey,
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.teal.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: const Icon(
+                  Icons.border_all_rounded,
+                  color: Colors.teal,
+                  size: 24,
+                ),
               ),
-            ),
+              const SizedBox(width: 16),
+              Text(
+                'Border Countries',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.grey[800],
+                ),
+              ),
+            ],
           ),
-          Expanded(
-            child: Text(
-              value,
-              style: const TextStyle(fontWeight: FontWeight.w500),
-            ),
+          const SizedBox(height: 24),
+          Wrap(
+            spacing: 12,
+            runSpacing: 12,
+            children: country.borders.map(
+              (border) => InkWell(
+                onTap: () => _onBorderCountryTap(border, controller),
+                borderRadius: BorderRadius.circular(16),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Colors.teal.withOpacity(0.1),
+                        Colors.teal.withOpacity(0.05),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: Colors.teal.withOpacity(0.2),
+                      width: 1,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.location_on_rounded,
+                        color: Colors.teal,
+                        size: 16,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        border,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: Colors.grey[800],
+                          fontSize: 14,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        color: Colors.teal,
+                        size: 12,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ).toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Build modern action buttons with enhanced design
+  Widget _buildModernActionButtons(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(24.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 20,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.blue.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: const Icon(
+                  Icons.rocket_launch_rounded,
+                  color: Colors.blue,
+                  size: 24,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Text(
+                'Quick Actions',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.grey[800],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 24),
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Theme.of(context).primaryColor,
+                        Theme.of(context).primaryColor.withOpacity(0.8),
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Theme.of(context).primaryColor.withOpacity(0.3),
+                        blurRadius: 12,
+                        offset: const Offset(0, 6),
+                      ),
+                    ],
+                  ),
+                  child: ElevatedButton.icon(
+                    onPressed: () => _openGoogleMaps(),
+                    icon: const Icon(Icons.map_rounded, color: Colors.white),
+                    label: const Text(
+                      'View on Map',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Theme.of(context).primaryColor.withOpacity(0.3),
+                      width: 2,
+                    ),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: OutlinedButton.icon(
+                    onPressed: () => _openWikipedia(),
+                    icon: Icon(
+                      Icons.info_outline_rounded,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    label: Text(
+                      'Wikipedia',
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      side: BorderSide.none,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
