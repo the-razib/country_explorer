@@ -113,7 +113,11 @@ class CountryDetailScreen extends StatelessWidget {
                 ),
                 errorWidget: (context, url, error) => Container(
                   color: Colors.grey[300],
-                  child: const Icon(Icons.flag_rounded, size: 64, color: Colors.grey),
+                  child: const Icon(
+                    Icons.flag_rounded,
+                    size: 64,
+                    color: Colors.grey,
+                  ),
                 ),
               ),
             ),
@@ -147,7 +151,9 @@ class CountryDetailScreen extends StatelessWidget {
                 controller.isFavorite(country)
                     ? Icons.favorite_rounded
                     : Icons.favorite_border_rounded,
-                color: controller.isFavorite(country) ? Colors.red : Colors.white,
+                color: controller.isFavorite(country)
+                    ? Colors.red
+                    : Colors.white,
               ),
               onPressed: () => controller.toggleFavorite(country),
             ),
@@ -351,7 +357,7 @@ class CountryDetailScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  country.area != null 
+                  country.area != null
                       ? '${country.area!.toStringAsFixed(0)} km²'
                       : 'N/A',
                   style: const TextStyle(
@@ -370,17 +376,19 @@ class CountryDetailScreen extends StatelessWidget {
   }
 
   /// Build modern information row with icon and styling
-  Widget _buildModernInfoRow(String label, String value, IconData icon, Color color) {
+  Widget _buildModernInfoRow(
+    String label,
+    String value,
+    IconData icon,
+    Color color,
+  ) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: color.withOpacity(0.05),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: color.withOpacity(0.1),
-          width: 1,
-        ),
+        border: Border.all(color: color.withOpacity(0.1), width: 1),
       ),
       child: Row(
         children: [
@@ -476,7 +484,7 @@ class CountryDetailScreen extends StatelessWidget {
           if (country.timezones.isNotEmpty)
             _buildModernInfoRow(
               'Timezones',
-              country.timezones.length == 1 
+              country.timezones.length == 1
                   ? country.timezones.first
                   : '${country.timezones.length} zones',
               Icons.access_time_rounded,
@@ -555,7 +563,10 @@ class CountryDetailScreen extends StatelessWidget {
               child: Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.amber,
                       borderRadius: BorderRadius.circular(12),
@@ -651,48 +662,53 @@ class CountryDetailScreen extends StatelessWidget {
           Wrap(
             spacing: 12,
             runSpacing: 12,
-            children: country.languages.entries.map(
-              (language) => Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Colors.purple.withOpacity(0.1),
-                      Colors.purple.withOpacity(0.05),
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: Colors.purple.withOpacity(0.2),
-                    width: 1,
-                  ),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      width: 8,
-                      height: 8,
-                      decoration: BoxDecoration(
-                        color: Colors.purple,
-                        borderRadius: BorderRadius.circular(4),
+            children: country.languages.entries
+                .map(
+                  (language) => Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.purple.withOpacity(0.1),
+                          Colors.purple.withOpacity(0.05),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: Colors.purple.withOpacity(0.2),
+                        width: 1,
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    Text(
-                      language.value,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        color: Colors.grey[800],
-                        fontSize: 14,
-                      ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: 8,
+                          height: 8,
+                          decoration: BoxDecoration(
+                            color: Colors.purple,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          language.value,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.grey[800],
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-            ).toList(),
+                  ),
+                )
+                .toList(),
           ),
         ],
       ),
@@ -751,55 +767,60 @@ class CountryDetailScreen extends StatelessWidget {
           Wrap(
             spacing: 12,
             runSpacing: 12,
-            children: country.borders.map(
-              (border) => InkWell(
-                onTap: () => _onBorderCountryTap(border, controller),
-                borderRadius: BorderRadius.circular(16),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.teal.withOpacity(0.1),
-                        Colors.teal.withOpacity(0.05),
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
+            children: country.borders
+                .map(
+                  (border) => InkWell(
+                    onTap: () => _onBorderCountryTap(border, controller),
                     borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: Colors.teal.withOpacity(0.2),
-                      width: 1,
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.location_on_rounded,
-                        color: Colors.teal,
-                        size: 16,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 12,
                       ),
-                      const SizedBox(width: 8),
-                      Text(
-                        border,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color: Colors.grey[800],
-                          fontSize: 14,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Colors.teal.withOpacity(0.1),
+                            Colors.teal.withOpacity(0.05),
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: Colors.teal.withOpacity(0.2),
+                          width: 1,
                         ),
                       ),
-                      const SizedBox(width: 4),
-                      Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        color: Colors.teal,
-                        size: 12,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.location_on_rounded,
+                            color: Colors.teal,
+                            size: 16,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            border,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: Colors.grey[800],
+                              fontSize: 14,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            color: Colors.teal,
+                            size: 12,
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            ).toList(),
+                )
+                .toList(),
           ),
         ],
       ),

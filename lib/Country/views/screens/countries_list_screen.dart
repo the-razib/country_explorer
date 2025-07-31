@@ -43,14 +43,16 @@ class CountriesListScreen extends StatelessWidget {
                           color: Theme.of(context).primaryColor,
                         ),
                       ),
-                      Obx(() => Text(
-                        '${controller.filteredCountries.length} countries',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[600],
-                          fontWeight: FontWeight.w500,
+                      Obx(
+                        () => Text(
+                          '${controller.filteredCountries.length} countries',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey[600],
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
-                      )),
+                      ),
                     ],
                   ),
                   centerTitle: true,
@@ -78,7 +80,8 @@ class CountriesListScreen extends StatelessWidget {
                           size: 20,
                         ),
                       ),
-                      onPressed: () => _showModernSearchDialog(context, controller),
+                      onPressed: () =>
+                          _showModernSearchDialog(context, controller),
                     ),
                   ),
                   Container(
@@ -128,7 +131,8 @@ class CountriesListScreen extends StatelessWidget {
                           size: 20,
                         ),
                       ),
-                      onPressed: () => _showModernFilterDialog(context, controller),
+                      onPressed: () =>
+                          _showModernFilterDialog(context, controller),
                     ),
                   ),
                 ],
@@ -218,10 +222,7 @@ class CountriesListScreen extends StatelessWidget {
               const SizedBox(height: 8),
               Text(
                 'Loading amazing places from around the world...',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey[600],
-                ),
+                style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                 textAlign: TextAlign.center,
               ),
             ],
@@ -264,10 +265,7 @@ class CountriesListScreen extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               'Try adjusting your search or filter criteria',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey[600],
-              ),
+              style: TextStyle(fontSize: 16, color: Colors.grey[600]),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 24),
@@ -280,7 +278,10 @@ class CountriesListScreen extends StatelessWidget {
               icon: const Icon(Icons.refresh_rounded),
               label: const Text('Reset Filters'),
               style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 12,
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -311,13 +312,10 @@ class CountriesListScreen extends StatelessWidget {
                   crossAxisSpacing: 16,
                   mainAxisSpacing: 16,
                 ),
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    final country = controller.filteredCountries[index];
-                    return _buildModernCountryCard(country);
-                  },
-                  childCount: controller.filteredCountries.length,
-                ),
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  final country = controller.filteredCountries[index];
+                  return _buildModernCountryCard(country);
+                }, childCount: controller.filteredCountries.length),
               ),
             ),
             const SliverToBoxAdapter(child: SizedBox(height: 100)),
@@ -500,7 +498,10 @@ class CountriesListScreen extends StatelessWidget {
   }
 
   /// Show modern search dialog
-  void _showModernSearchDialog(BuildContext context, CountryController controller) {
+  void _showModernSearchDialog(
+    BuildContext context,
+    CountryController controller,
+  ) {
     showDialog(
       context: context,
       builder: (context) => Dialog(
@@ -591,7 +592,10 @@ class CountriesListScreen extends StatelessWidget {
   }
 
   /// Show modern filter dialog
-  void _showModernFilterDialog(BuildContext context, CountryController controller) {
+  void _showModernFilterDialog(
+    BuildContext context,
+    CountryController controller,
+  ) {
     showDialog(
       context: context,
       builder: (context) => Dialog(
@@ -669,7 +673,10 @@ class CountriesListScreen extends StatelessWidget {
   }
 
   /// Build modern navigation drawer
-  Widget _buildModernDrawer(BuildContext context, CountryController controller) {
+  Widget _buildModernDrawer(
+    BuildContext context,
+    CountryController controller,
+  ) {
     return Drawer(
       backgroundColor: Colors.white,
       child: Column(
@@ -782,10 +789,7 @@ class CountriesListScreen extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 16),
-                Container(
-                  height: 1,
-                  color: Colors.grey[200],
-                ),
+                Container(height: 1, color: Colors.grey[200]),
                 const SizedBox(height: 16),
                 Obx(
                   () => _buildModernDrawerItemWithSubtitle(
@@ -800,10 +804,7 @@ class CountriesListScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16),
-                Container(
-                  height: 1,
-                  color: Colors.grey[200],
-                ),
+                Container(height: 1, color: Colors.grey[200]),
                 const SizedBox(height: 16),
                 _buildModernDrawerItem(
                   context,
@@ -862,9 +863,7 @@ class CountriesListScreen extends StatelessWidget {
       child: ListTile(
         leading: Icon(
           icon,
-          color: isSelected
-              ? Theme.of(context).primaryColor
-              : Colors.grey[600],
+          color: isSelected ? Theme.of(context).primaryColor : Colors.grey[600],
         ),
         title: Text(
           title,
@@ -876,9 +875,7 @@ class CountriesListScreen extends StatelessWidget {
           ),
         ),
         onTap: onTap,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
   }
@@ -908,15 +905,10 @@ class CountriesListScreen extends StatelessWidget {
         ),
         subtitle: Text(
           subtitle,
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.grey[500],
-          ),
+          style: TextStyle(fontSize: 12, color: Colors.grey[500]),
         ),
         onTap: onTap,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
   }

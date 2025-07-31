@@ -5,7 +5,7 @@ import '../../controllers/country_controller.dart';
 import '../../models/country_model.dart';
 import 'dart:math';
 
-/// Quiz game screen for testing country knowledge
+/// Modern quiz game screen for testing country knowledge
 class CountryQuizScreen extends StatefulWidget {
   const CountryQuizScreen({Key? key}) : super(key: key);
 
@@ -13,8 +13,15 @@ class CountryQuizScreen extends StatefulWidget {
   State<CountryQuizScreen> createState() => _CountryQuizScreenState();
 }
 
-class _CountryQuizScreenState extends State<CountryQuizScreen> {
+class _CountryQuizScreenState extends State<CountryQuizScreen>
+    with TickerProviderStateMixin {
   final controller = Get.find<CountryController>();
+  
+  // Animation controllers
+  late AnimationController _fadeController;
+  late AnimationController _slideController;
+  late Animation<double> _fadeAnimation;
+  late Animation<Offset> _slideAnimation;
   
   // Quiz state
   int currentQuestion = 0;
@@ -35,41 +42,677 @@ class _CountryQuizScreenState extends State<CountryQuizScreen> {
   @override
   void initState() {
     super.initState();
+    
+    /// Initialize animation controllers
+    _fadeController = AnimationController(
+      duration: const Duration(milliseconds: 600),
+      vsync: this,
+    );
+    _slideController = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
+    
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _fadeController, curve: Curves.easeOut),
+    );
+    
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 0.1),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _slideController, curve: Curves.easeOut));
+    
     _generateQuestions();
+    
+    /// Start animations
+    _fadeController.forward();
+    _slideController.forward();
+  }
+
+  @override
+  void dispose() {
+    _fadeController.dispose();
+    _slideController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     if (questions.isEmpty) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return _buildLoadingScreen();
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Country Quiz'),
-        centerTitle: true,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 16),
-              child: Text(
-                'Score: $score/${questions.length}',
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+      backgroundColor: const Color(0xFFF8FAFC),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: currentQuestion >= questions.length
+              ? _buildResultsScreen()
+              : _buildQuizScreen(),
+        ),
+      ),
+    );
+  }
+
+  /// Modern loading screen with glass-morphism effect
+  Widget _buildLoadingScreen() {
+    return Scaffold(
+      backgroundColor: const Color(0xFFF8FAFC),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFF667EEA),
+              Color(0xFF764BA2),
+            ],
+          ),
+        ),
+        child: Center(
+          child: Container(
+            margin: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(32),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.15),
+              borderRadius: BorderRadius.circular(24),
+              border: Border.all(
+                color: Colors.white.withOpacity(0.2),
+                width: 1,
               ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 20,
+                  offset: const Offset(0, 8),
+                ),
+              ],
             ),
+            child: const Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.quiz_rounded,
+                  color: Colors.white,
+                  size: 48,
+                ),
+                SizedBox(height: 24),
+                CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+                SizedBox(height: 24),
+                Text(
+                  'Preparing Quiz...',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'Loading questions for you',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Modern quiz screen with enhanced animations
+  Widget _buildQuizScreen() {
+    return SlideTransition(
+      position: _slideAnimation,
+      child: FadeTransition(
+        opacity: _fadeAnimation,
+        child: Column(
+          children: [
+            /// Modern header with progress
+            _buildModernHeader(),
+            
+            /// Question content
+            Expanded(
+              child: _buildQuestionContent(),
+            ),
+            
+            /// Answer options
+            _buildAnswerOptions(),
+            
+            /// Next button
+            if (isAnswered) _buildNextButton(),
+            
+            const SizedBox(height: 24),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Modern header with glass-morphism effect
+  Widget _buildModernHeader() {
+    return Container(
+      margin: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.15),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: Colors.white.withOpacity(0.2),
+          width: 1,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
           ),
         ],
       ),
-      body: currentQuestion >= questions.length
-          ? _buildResultScreen()
-          : _buildQuestionScreen(),
+      child: Column(
+        children: [
+          /// Progress bar
+          Row(
+            children: [
+              const Icon(
+                Icons.quiz_rounded,
+                color: Colors.white,
+                size: 20,
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Container(
+                  height: 8,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                  child: FractionallySizedBox(
+                    alignment: Alignment.centerLeft,
+                    widthFactor: (currentQuestion + 1) / questions.length,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                '${currentQuestion + 1}/${questions.length}',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          
+          /// Score display
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Score: $score',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  _getQuestionTypeText(questions[currentQuestion].type),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Question content with modern styling
+  Widget _buildQuestionContent() {
+    final question = questions[currentQuestion];
+    
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            blurRadius: 20,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: _buildQuestionTypeContent(question),
+    );
+  }
+
+  /// Build content based on question type
+  Widget _buildQuestionTypeContent(QuizQuestion question) {
+    switch (question.type) {
+      case QuizType.flagToCountry:
+        return Column(
+          children: [
+            const Text(
+              'Which country does this flag belong to?',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF1E293B),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 32),
+            Container(
+              height: 160,
+              width: 240,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.15),
+                    blurRadius: 15,
+                    offset: const Offset(0, 6),
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: CachedNetworkImage(
+                  imageUrl: question.correctCountry.flags.png,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => Container(
+                    color: const Color(0xFFF1F5F9),
+                    child: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => Container(
+                    color: const Color(0xFFF1F5F9),
+                    child: const Icon(
+                      Icons.flag_rounded,
+                      size: 48,
+                      color: Color(0xFF64748B),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+        
+      case QuizType.countryToCapital:
+        return Column(
+          children: [
+            const Text(
+              'What is the capital of',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF1E293B),
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
+                ),
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: const Color(0xFF667EEA).withOpacity(0.3),
+                    blurRadius: 8,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Text(
+                question.correctCountry.name.common,
+                style: const TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              '?',
+              style: TextStyle(
+                fontSize: 48,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF667EEA),
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        );
+        
+      default:
+        return Text(
+          question.getQuestionText(),
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
+            color: Color(0xFF1E293B),
+          ),
+          textAlign: TextAlign.center,
+        );
+    }
+  }
+
+  /// Modern answer options with enhanced styling
+  Widget _buildAnswerOptions() {
+    final question = questions[currentQuestion];
+    final answers = question.getShuffledAnswers();
+    
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        children: List.generate(
+          answers.length,
+          (index) => _buildAnswerOption(answers[index], index),
+        ),
+      ),
+    );
+  }
+
+  /// Modern answer option
+  Widget _buildAnswerOption(String answer, int index) {
+    final question = questions[currentQuestion];
+    final isCorrect = answer == question.getCorrectAnswer();
+    final isSelected = selectedAnswer == index;
+    
+    Color backgroundColor;
+    Color borderColor;
+    Color textColor;
+    IconData? icon;
+    
+    if (isAnswered) {
+      if (isCorrect) {
+        backgroundColor = const Color(0xFF10B981).withOpacity(0.1);
+        borderColor = const Color(0xFF10B981);
+        textColor = const Color(0xFF10B981);
+        icon = Icons.check_circle_rounded;
+      } else if (isSelected && !isCorrect) {
+        backgroundColor = Colors.red.withOpacity(0.1);
+        borderColor = Colors.red;
+        textColor = Colors.red;
+        icon = Icons.cancel_rounded;
+      } else {
+        backgroundColor = const Color(0xFFF8FAFC);
+        borderColor = const Color(0xFFE2E8F0);
+        textColor = const Color(0xFF64748B);
+      }
+    } else {
+      if (isSelected) {
+        backgroundColor = Colors.white.withOpacity(0.2);
+        borderColor = Colors.white;
+        textColor = Colors.white;
+      } else {
+        backgroundColor = Colors.white.withOpacity(0.1);
+        borderColor = Colors.white.withOpacity(0.3);
+        textColor = Colors.white;
+      }
+    }
+    
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: isAnswered ? null : () => _selectAnswer(index, isCorrect),
+          borderRadius: BorderRadius.circular(16),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: backgroundColor,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: borderColor, width: 2),
+              boxShadow: isSelected && !isAnswered
+                  ? [
+                      BoxShadow(
+                        color: Colors.white.withOpacity(0.3),
+                        blurRadius: 8,
+                        offset: const Offset(0, 4),
+                      ),
+                    ]
+                  : null,
+            ),
+            child: Row(
+              children: [
+                /// Option indicator
+                Container(
+                  width: 32,
+                  height: 32,
+                  decoration: BoxDecoration(
+                    color: borderColor,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: icon != null
+                        ? Icon(icon, color: Colors.white, size: 18)
+                        : Text(
+                            String.fromCharCode(65 + index), // A, B, C, D
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16,
+                            ),
+                          ),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                
+                /// Answer text
+                Expanded(
+                  child: Text(
+                    answer,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: textColor,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Modern next button
+  Widget _buildNextButton() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 12,
+              offset: const Offset(0, 6),
+            ),
+          ],
+        ),
+        child: ElevatedButton(
+          onPressed: _nextQuestion,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.white,
+            foregroundColor: const Color(0xFF667EEA),
+            shadowColor: Colors.transparent,
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+          ),
+          child: Text(
+            currentQuestion + 1 >= questions.length ? 'Finish Quiz' : 'Next Question',
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// Modern results screen
+  Widget _buildResultsScreen() {
+    final percentage = (score / questions.length * 100).round();
+    
+    return Center(
+      child: Container(
+        margin: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(32),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.15),
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(
+            color: Colors.white.withOpacity(0.2),
+            width: 1,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 20,
+              offset: const Offset(0, 8),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(
+              Icons.emoji_events_rounded,
+              color: Colors.white,
+              size: 64,
+            ),
+            const SizedBox(height: 24),
+            const Text(
+              'Quiz Complete!',
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'You scored $score out of ${questions.length}',
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              '$percentage%',
+              style: const TextStyle(
+                fontSize: 48,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 32),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildResultButton(
+                  'Try Again',
+                  Icons.refresh_rounded,
+                  _restartQuiz,
+                ),
+                _buildResultButton(
+                  'Home',
+                  Icons.home_rounded,
+                  () => Get.back(),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Modern result button
+  Widget _buildResultButton(String text, IconData icon, VoidCallback onPressed) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: ElevatedButton.icon(
+        onPressed: onPressed,
+        icon: Icon(icon, size: 20),
+        label: Text(text),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.white,
+          foregroundColor: const Color(0xFF667EEA),
+          shadowColor: Colors.transparent,
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+        ),
+      ),
     );
   }
 
@@ -108,358 +751,35 @@ class _CountryQuizScreenState extends State<CountryQuizScreen> {
     }
   }
 
-  /// Build question screen
-  Widget _buildQuestionScreen() {
-    final question = questions[currentQuestion];
-    final answers = question.getShuffledAnswers();
-    
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        children: [
-          // Progress indicator
-          LinearProgressIndicator(
-            value: (currentQuestion + 1) / questions.length,
-            backgroundColor: Colors.grey[300],
-            valueColor: AlwaysStoppedAnimation<Color>(
-              Theme.of(context).primaryColor,
-            ),
-          ),
-          const SizedBox(height: 16),
-          
-          // Question number
-          Text(
-            'Question ${currentQuestion + 1} of ${questions.length}',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: Colors.grey[600],
-            ),
-          ),
-          const SizedBox(height: 24),
-          
-          // Question content
-          Expanded(
-            child: Column(
-              children: [
-                _buildQuestionContent(question),
-                const SizedBox(height: 32),
-                
-                // Answer options
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: answers.length,
-                    itemBuilder: (context, index) {
-                      return _buildAnswerOption(question, answers[index], index);
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-          
-          // Next button
-          if (isAnswered)
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _nextQuestion,
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                ),
-                child: Text(
-                  currentQuestion + 1 >= questions.length ? 'Finish Quiz' : 'Next Question',
-                  style: const TextStyle(fontSize: 16),
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-
-  /// Build question content based on type
-  Widget _buildQuestionContent(QuizQuestion question) {
-    switch (question.type) {
-      case QuizType.flagToCountry:
-        return Column(
-          children: [
-            const Text(
-              'Which country does this flag belong to?',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 24),
-            Container(
-              height: 120,
-              width: 180,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: CachedNetworkImage(
-                  imageUrl: question.correctCountry.flags.png,
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) => Container(
-                    color: Colors.grey[300],
-                    child: const Center(child: CircularProgressIndicator()),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        );
-        
-      case QuizType.countryToCapital:
-        return Column(
-          children: [
-            const Text(
-              'What is the capital of',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              question.correctCountry.name.common,
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const Text(
-              '?',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        );
-        
-      default:
-        return Text(
-          question.getQuestionText(),
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-          textAlign: TextAlign.center,
-        );
-    }
-  }
-
-  /// Build answer option
-  Widget _buildAnswerOption(QuizQuestion question, String answer, int index) {
-    final isCorrect = answer == question.getCorrectAnswer();
-    final isSelected = selectedAnswer == index;
-    
-    Color? backgroundColor;
-    Color? textColor;
-    IconData? icon;
-    
-    if (isAnswered) {
-      if (isCorrect) {
-        backgroundColor = Colors.green[100];
-        textColor = Colors.green[800];
-        icon = Icons.check_circle;
-      } else if (isSelected && !isCorrect) {
-        backgroundColor = Colors.red[100];
-        textColor = Colors.red[800];
-        icon = Icons.cancel;
-      }
-    } else if (isSelected) {
-      backgroundColor = Theme.of(context).primaryColor.withOpacity(0.1);
-      textColor = Theme.of(context).primaryColor;
-    }
-    
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: InkWell(
-        onTap: isAnswered ? null : () => _selectAnswer(index, isCorrect),
-        borderRadius: BorderRadius.circular(12),
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: backgroundColor ?? Colors.grey[50],
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: isSelected
-                  ? (isAnswered && isCorrect
-                      ? Colors.green
-                      : isAnswered
-                          ? Colors.red
-                          : Theme.of(context).primaryColor)
-                  : Colors.grey[300]!,
-              width: 2,
-            ),
-          ),
-          child: Row(
-            children: [
-              CircleAvatar(
-                radius: 16,
-                backgroundColor: isSelected
-                    ? (isAnswered && isCorrect
-                        ? Colors.green
-                        : isAnswered
-                            ? Colors.red
-                            : Theme.of(context).primaryColor)
-                    : Colors.grey[300],
-                child: icon != null
-                    ? Icon(icon, color: Colors.white, size: 20)
-                    : Text(
-                        String.fromCharCode(65 + index), // A, B, C, D
-                        style: TextStyle(
-                          color: isSelected ? Colors.white : Colors.grey[600],
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Text(
-                  answer,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: textColor,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  /// Build result screen
-  Widget _buildResultScreen() {
-    final percentage = (score / questions.length * 100).round();
-    String title;
-    String subtitle;
-    IconData icon;
-    Color color;
-    
-    if (percentage >= 80) {
-      title = 'Excellent!';
-      subtitle = 'You\'re a geography expert!';
-      icon = Icons.emoji_events;
-      color = Colors.amber;
-    } else if (percentage >= 60) {
-      title = 'Good Job!';
-      subtitle = 'You know your countries well!';
-      icon = Icons.thumb_up;
-      color = Colors.green;
-    } else if (percentage >= 40) {
-      title = 'Not Bad!';
-      subtitle = 'Keep exploring to learn more!';
-      icon = Icons.sentiment_satisfied;
-      color = Colors.orange;
-    } else {
-      title = 'Keep Learning!';
-      subtitle = 'Practice makes perfect!';
-      icon = Icons.school;
-      color = Colors.blue;
-    }
-    
-    return Padding(
-      padding: const EdgeInsets.all(24.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: 100, color: color),
-          const SizedBox(height: 24),
-          Text(
-            title,
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: color,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            subtitle,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-              color: Colors.grey[600],
-            ),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 32),
-          Container(
-            padding: const EdgeInsets.all(24),
-            decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Column(
-              children: [
-                Text(
-                  'Final Score',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  '$score / ${questions.length}',
-                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: color,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  '$percentage%',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: Colors.grey[600],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(height: 32),
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: () => Get.back(),
-                  child: const Text('Back to Explorer'),
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: _restartQuiz,
-                  child: const Text('Play Again'),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
   /// Select answer
-  void _selectAnswer(int index, bool isCorrect) {
+  void _selectAnswer(int answerIndex, bool isCorrect) {
     setState(() {
-      selectedAnswer = index;
+      selectedAnswer = answerIndex;
       isAnswered = true;
-      if (isCorrect) score++;
+      if (isCorrect) {
+        score++;
+      }
     });
   }
 
-  /// Go to next question
+  /// Move to next question
   void _nextQuestion() {
+    if (currentQuestion + 1 >= questions.length) {
+      // Quiz finished
+      return;
+    }
+    
     setState(() {
       currentQuestion++;
-      selectedAnswer = null;
       isAnswered = false;
+      selectedAnswer = null;
     });
+    
+    // Reset and restart animations
+    _fadeController.reset();
+    _slideController.reset();
+    _fadeController.forward();
+    _slideController.forward();
   }
 
   /// Restart quiz
@@ -469,18 +789,32 @@ class _CountryQuizScreenState extends State<CountryQuizScreen> {
       score = 0;
       isAnswered = false;
       selectedAnswer = null;
-      _generateQuestions();
     });
+    
+    _generateQuestions();
+    
+    // Reset animations
+    _fadeController.reset();
+    _slideController.reset();
+    _fadeController.forward();
+    _slideController.forward();
   }
-}
 
-/// Quiz question types
-enum QuizType {
-  flagToCountry,
-  countryToCapital,
-  countryToPopulation,
-  countryToCurrency,
-  countryToRegion,
+  /// Get question type text
+  String _getQuestionTypeText(QuizType type) {
+    switch (type) {
+      case QuizType.flagToCountry:
+        return 'FLAG QUIZ';
+      case QuizType.countryToCapital:
+        return 'CAPITAL QUIZ';
+      case QuizType.countryToPopulation:
+        return 'POPULATION QUIZ';
+      case QuizType.countryToCurrency:
+        return 'CURRENCY QUIZ';
+      case QuizType.countryToRegion:
+        return 'REGION QUIZ';
+    }
+  }
 }
 
 /// Quiz question model
@@ -505,11 +839,11 @@ class QuizQuestion {
       case QuizType.countryToCapital:
         return 'What is the capital of ${correctCountry.name.common}?';
       case QuizType.countryToPopulation:
-        return 'What is the approximate population of ${correctCountry.name.common}?';
+        return 'What is the population of ${correctCountry.name.common}?';
       case QuizType.countryToCurrency:
-        return 'What is the main currency of ${correctCountry.name.common}?';
+        return 'What is the currency of ${correctCountry.name.common}?';
       case QuizType.countryToRegion:
-        return 'Which region does ${correctCountry.name.common} belong to?';
+        return 'Which region is ${correctCountry.name.common} in?';
     }
   }
 
@@ -519,9 +853,11 @@ class QuizQuestion {
       case QuizType.flagToCountry:
         return correctCountry.name.common;
       case QuizType.countryToCapital:
-        return correctCountry.capital.isNotEmpty ? correctCountry.capital.first : 'No capital';
+        return correctCountry.capital.isNotEmpty 
+            ? correctCountry.capital.first 
+            : 'No capital';
       case QuizType.countryToPopulation:
-        return correctCountry.formattedPopulation;
+        return correctCountry.population.toString();
       case QuizType.countryToCurrency:
         return correctCountry.currencies.isNotEmpty
             ? correctCountry.currencies.values.first.name
@@ -531,36 +867,49 @@ class QuizQuestion {
     }
   }
 
-  /// Get shuffled answers for multiple choice
+  /// Get shuffled answers
   List<String> getShuffledAnswers() {
-    final answers = <String>[];
+    final wrongAnswersStrings = <String>[];
     
-    // Add wrong answers
+    // Generate wrong answers based on type
     for (final country in wrongAnswers) {
+      String wrongAnswer;
       switch (type) {
         case QuizType.flagToCountry:
-          answers.add(country.name.common);
+          wrongAnswer = country.name.common;
           break;
         case QuizType.countryToCapital:
-          answers.add(country.capital.isNotEmpty ? country.capital.first : 'No capital');
+          wrongAnswer = country.capital.isNotEmpty 
+              ? country.capital.first 
+              : 'No capital';
           break;
         case QuizType.countryToPopulation:
-          answers.add(country.formattedPopulation);
+          wrongAnswer = country.population.toString();
           break;
         case QuizType.countryToCurrency:
-          answers.add(country.currencies.isNotEmpty
+          wrongAnswer = country.currencies.isNotEmpty
               ? country.currencies.values.first.name
-              : 'No currency');
+              : 'No currency';
           break;
         case QuizType.countryToRegion:
-          answers.add(country.region);
+          wrongAnswer = country.region;
           break;
       }
+      wrongAnswersStrings.add(wrongAnswer);
     }
     
-    // Insert correct answer at the specified index
-    answers.insert(correctAnswerIndex, getCorrectAnswer());
+    // Add correct answer at specified index
+    wrongAnswersStrings.insert(correctAnswerIndex, getCorrectAnswer());
     
-    return answers;
+    return wrongAnswersStrings;
   }
+}
+
+/// Quiz types enum
+enum QuizType {
+  flagToCountry,
+  countryToCapital,
+  countryToPopulation,
+  countryToCurrency,
+  countryToRegion,
 }
