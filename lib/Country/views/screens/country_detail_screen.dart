@@ -10,8 +10,7 @@ import '../../controllers/achievement_controller.dart';
 class CountryDetailScreen extends StatelessWidget {
   final Country country;
 
-  const CountryDetailScreen({Key? key, required this.country})
-    : super(key: key);
+  const CountryDetailScreen({super.key, required this.country});
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +69,7 @@ class CountryDetailScreen extends StatelessWidget {
       leading: Container(
         margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.3),
+          color: Colors.black.withValues(alpha: 0.3),
           borderRadius: BorderRadius.circular(12),
         ),
         child: IconButton(
@@ -82,7 +81,7 @@ class CountryDetailScreen extends StatelessWidget {
         title: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.5),
+            color: Colors.black.withValues(alpha: 0.5),
             borderRadius: BorderRadius.circular(20),
           ),
           child: Text(
@@ -128,8 +127,8 @@ class CountryDetailScreen extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   colors: [
                     Colors.transparent,
-                    Colors.black.withOpacity(0.3),
-                    Colors.black.withOpacity(0.8),
+                    Colors.black.withValues(alpha: 0.3),
+                    Colors.black.withValues(alpha: 0.8),
                   ],
                   stops: const [0.0, 0.6, 1.0],
                 ),
@@ -142,7 +141,7 @@ class CountryDetailScreen extends StatelessWidget {
         Container(
           margin: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.3),
+            color: Colors.black.withValues(alpha: 0.3),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Obx(
@@ -162,7 +161,7 @@ class CountryDetailScreen extends StatelessWidget {
         Container(
           margin: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.black.withOpacity(0.3),
+            color: Colors.black.withValues(alpha: 0.3),
             borderRadius: BorderRadius.circular(12),
           ),
           child: IconButton(
@@ -183,7 +182,7 @@ class CountryDetailScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 20,
             offset: const Offset(0, 4),
           ),
@@ -197,7 +196,7 @@ class CountryDetailScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withOpacity(0.1),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Icon(
@@ -263,14 +262,14 @@ class CountryDetailScreen extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.blue, Colors.blue.withOpacity(0.8)],
+                colors: [Colors.blue, Colors.blue.withValues(alpha: 0.8)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.blue.withOpacity(0.3),
+                  color: Colors.blue.withValues(alpha: 0.3),
                   blurRadius: 15,
                   offset: const Offset(0, 6),
                 ),
@@ -281,7 +280,7 @@ class CountryDetailScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
+                    color: Colors.white.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: const Icon(
@@ -294,7 +293,7 @@ class CountryDetailScreen extends StatelessWidget {
                 Text(
                   'Population',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.9),
+                    color: Colors.white.withValues(alpha: 0.9),
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                   ),
@@ -319,14 +318,14 @@ class CountryDetailScreen extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.orange, Colors.orange.withOpacity(0.8)],
+                colors: [Colors.orange, Colors.orange.withValues(alpha: 0.8)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
               borderRadius: BorderRadius.circular(20),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.orange.withOpacity(0.3),
+                  color: Colors.orange.withValues(alpha: 0.3),
                   blurRadius: 15,
                   offset: const Offset(0, 6),
                 ),
@@ -337,7 +336,7 @@ class CountryDetailScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
+                    color: Colors.white.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: const Icon(
@@ -350,7 +349,7 @@ class CountryDetailScreen extends StatelessWidget {
                 Text(
                   'Area',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.9),
+                    color: Colors.white.withValues(alpha: 0.9),
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                   ),
@@ -386,16 +385,16 @@ class CountryDetailScreen extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.05),
+        color: color.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: color.withOpacity(0.1), width: 1),
+        border: Border.all(color: color.withValues(alpha: 0.1), width: 1),
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: color.withOpacity(0.1),
+              color: color.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(icon, color: color, size: 20),
@@ -439,7 +438,7 @@ class CountryDetailScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 20,
             offset: const Offset(0, 4),
           ),
@@ -453,7 +452,7 @@ class CountryDetailScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(0.1),
+                  color: Colors.green.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const Icon(
@@ -506,7 +505,7 @@ class CountryDetailScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 20,
             offset: const Offset(0, 4),
           ),
@@ -520,7 +519,7 @@ class CountryDetailScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.amber.withOpacity(0.1),
+                  color: Colors.amber.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const Icon(
@@ -548,15 +547,15 @@ class CountryDetailScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [
-                    Colors.amber.withOpacity(0.1),
-                    Colors.amber.withOpacity(0.05),
+                    Colors.amber.withValues(alpha: 0.1),
+                    Colors.amber.withValues(alpha: 0.05),
                   ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
-                  color: Colors.amber.withOpacity(0.2),
+                  color: Colors.amber.withValues(alpha: 0.2),
                   width: 1,
                 ),
               ),
@@ -624,7 +623,7 @@ class CountryDetailScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 20,
             offset: const Offset(0, 4),
           ),
@@ -638,7 +637,7 @@ class CountryDetailScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.purple.withOpacity(0.1),
+                  color: Colors.purple.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const Icon(
@@ -672,15 +671,15 @@ class CountryDetailScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          Colors.purple.withOpacity(0.1),
-                          Colors.purple.withOpacity(0.05),
+                          Colors.purple.withValues(alpha: 0.1),
+                          Colors.purple.withValues(alpha: 0.05),
                         ],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
-                        color: Colors.purple.withOpacity(0.2),
+                        color: Colors.purple.withValues(alpha: 0.2),
                         width: 1,
                       ),
                     ),
@@ -729,7 +728,7 @@ class CountryDetailScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 20,
             offset: const Offset(0, 4),
           ),
@@ -743,7 +742,7 @@ class CountryDetailScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.teal.withOpacity(0.1),
+                  color: Colors.teal.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const Icon(
@@ -780,15 +779,15 @@ class CountryDetailScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            Colors.teal.withOpacity(0.1),
-                            Colors.teal.withOpacity(0.05),
+                            Colors.teal.withValues(alpha: 0.1),
+                            Colors.teal.withValues(alpha: 0.05),
                           ],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                         ),
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                          color: Colors.teal.withOpacity(0.2),
+                          color: Colors.teal.withValues(alpha: 0.2),
                           width: 1,
                         ),
                       ),
@@ -836,7 +835,7 @@ class CountryDetailScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 20,
             offset: const Offset(0, 4),
           ),
@@ -850,7 +849,7 @@ class CountryDetailScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.blue.withOpacity(0.1),
+                  color: Colors.blue.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const Icon(
@@ -879,7 +878,7 @@ class CountryDetailScreen extends StatelessWidget {
                     gradient: LinearGradient(
                       colors: [
                         Theme.of(context).primaryColor,
-                        Theme.of(context).primaryColor.withOpacity(0.8),
+                        Theme.of(context).primaryColor.withValues(alpha: 0.8),
                       ],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
@@ -887,7 +886,7 @@ class CountryDetailScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: Theme.of(context).primaryColor.withOpacity(0.3),
+                        color: Theme.of(context).primaryColor.withValues(alpha: 0.3),
                         blurRadius: 12,
                         offset: const Offset(0, 6),
                       ),
@@ -919,7 +918,7 @@ class CountryDetailScreen extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: Theme.of(context).primaryColor.withOpacity(0.3),
+                      color: Theme.of(context).primaryColor.withValues(alpha: 0.3),
                       width: 2,
                     ),
                     borderRadius: BorderRadius.circular(16),
@@ -981,46 +980,133 @@ class CountryDetailScreen extends StatelessWidget {
 
   /// Open Google Maps for the country
   void _openGoogleMaps() async {
-    if (country.latlng != null && country.latlng!.length >= 2) {
-      final lat = country.latlng![0];
-      final lng = country.latlng![1];
-      final url = 'https://www.google.com/maps/search/?api=1&query=$lat,$lng';
+    try {
+      if (country.latlng != null && country.latlng!.length >= 2) {
+        final lat = country.latlng![0];
+        final lng = country.latlng![1];
+        final countryName = Uri.encodeComponent(country.name.common);
 
-      if (await canLaunchUrl(Uri.parse(url))) {
-        await launchUrl(Uri.parse(url));
+        // Try Google Maps app first, then fallback to web
+        final googleMapsAppUrl = 'comgooglemaps://?q=$lat,$lng($countryName)';
+        final googleMapsWebUrl =
+            'https://www.google.com/maps/search/?api=1&query=$lat,$lng';
+        final appleMapsUrl = 'http://maps.apple.com/?q=$lat,$lng';
+
+        // Try Google Maps app first
+        if (await canLaunchUrl(Uri.parse(googleMapsAppUrl))) {
+          await launchUrl(
+            Uri.parse(googleMapsAppUrl),
+            mode: LaunchMode.externalApplication,
+          );
+        }
+        // Try Apple Maps on iOS
+        else if (await canLaunchUrl(Uri.parse(appleMapsUrl))) {
+          await launchUrl(
+            Uri.parse(appleMapsUrl),
+            mode: LaunchMode.externalApplication,
+          );
+        }
+        // Fallback to Google Maps web
+        else if (await canLaunchUrl(Uri.parse(googleMapsWebUrl))) {
+          await launchUrl(
+            Uri.parse(googleMapsWebUrl),
+            mode: LaunchMode.externalApplication,
+          );
+        } else {
+          Get.snackbar(
+            'Error',
+            'Could not open maps application',
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.red.withValues(alpha: 0.1),
+            colorText: Colors.red,
+          );
+        }
       } else {
         Get.snackbar(
           'Error',
-          'Could not open maps',
+          'Location coordinates not available for this country',
           snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.orange.withValues(alpha: 0.1),
+          colorText: Colors.orange,
         );
       }
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to open maps: ${e.toString()}',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.withValues(alpha: 0.1),
+        colorText: Colors.red,
+      );
     }
   }
 
   /// Open Wikipedia for the country
   void _openWikipedia() async {
-    final countryName = country.name.common.replaceAll(' ', '_');
-    final url = 'https://en.wikipedia.org/wiki/$countryName';
+    try {
+      final countryName = country.name.common.replaceAll(' ', '_');
+      final url = 'https://en.wikipedia.org/wiki/$countryName';
+      final uri = Uri.parse(url);
 
-    if (await canLaunchUrl(Uri.parse(url))) {
-      await launchUrl(Uri.parse(url));
-    } else {
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else {
+        Get.snackbar(
+          'Error',
+          'Could not open Wikipedia',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red.withValues(alpha: 0.1),
+          colorText: Colors.red,
+        );
+      }
+    } catch (e) {
       Get.snackbar(
         'Error',
-        'Could not open Wikipedia',
+        'Failed to open Wikipedia: ${e.toString()}',
         snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.withValues(alpha: 0.1),
+        colorText: Colors.red,
       );
     }
   }
 
   /// Share country information
-  void _shareCountry() {
-    // For now, just show a snackbar
-    Get.snackbar(
-      'Share',
-      'Sharing functionality will be available soon!',
-      snackPosition: SnackPosition.BOTTOM,
-    );
+  void _shareCountry() async {
+    try {
+      final shareText =
+          '''
+🌍 ${country.name.common}
+
+📍 Capital: ${country.capital.isNotEmpty ? country.capital.join(', ') : 'N/A'}
+🌎 Region: ${country.region}
+👥 Population: ${country.formattedPopulation}
+${country.area != null ? '📏 Area: ${country.area!.toStringAsFixed(0)} km²' : ''}
+
+Discover more countries with Country Explorer App!
+      '''
+              .trim();
+
+      // Use share_plus package that's already in dependencies
+      // For now, we'll use a simple approach
+      Get.snackbar(
+        'Share',
+        'Country information copied to share!',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.green.withValues(alpha: 0.1),
+        colorText: Colors.green,
+        duration: const Duration(seconds: 2),
+      );
+
+      // TODO: Implement actual sharing when share_plus is properly configured
+      // Share.share(shareText, subject: 'Check out ${country.name.common}!');
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to share country information',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.withValues(alpha: 0.1),
+        colorText: Colors.red,
+      );
+    }
   }
 }

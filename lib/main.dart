@@ -34,7 +34,7 @@ void main() async {
 
 /// Main application widget
 class CountryExplorerApp extends StatelessWidget {
-  const CountryExplorerApp({Key? key}) : super(key: key);
+  const CountryExplorerApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +66,7 @@ class CountryExplorerApp extends StatelessWidget {
       ..backgroundColor = Colors.blue.shade600
       ..indicatorColor = Colors.white
       ..textColor = Colors.white
-      ..maskColor = Colors.black.withOpacity(0.5)
+      ..maskColor = Colors.black.withValues(alpha: 0.5)
       ..userInteractions = false
       ..dismissOnTap = false;
   }

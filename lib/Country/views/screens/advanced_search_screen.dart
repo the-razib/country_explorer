@@ -6,7 +6,7 @@ import 'country_detail_screen.dart';
 
 /// Advanced search screen with multiple filter options
 class AdvancedSearchScreen extends StatefulWidget {
-  const AdvancedSearchScreen({Key? key}) : super(key: key);
+  const AdvancedSearchScreen({super.key});
 
   @override
   State<AdvancedSearchScreen> createState() => _AdvancedSearchScreenState();
@@ -166,10 +166,10 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
                   child: Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(24),
                       border: Border.all(
-                        color: Colors.white.withOpacity(0.3),
+                        color: Colors.white.withValues(alpha: 0.3),
                         width: 1,
                       ),
                     ),
@@ -188,9 +188,9 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
       leading: Container(
         margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.2),
+          color: Colors.white.withValues(alpha: 0.2),
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: Colors.white.withOpacity(0.3), width: 1),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.3), width: 1),
         ),
         child: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -210,7 +210,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 20,
             offset: const Offset(0, 4),
           ),
@@ -385,7 +385,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
           boxShadow: isActive
               ? [
                   BoxShadow(
-                    color: const Color(0xFF667EEA).withOpacity(0.3),
+                    color: const Color(0xFF667EEA).withValues(alpha: 0.3),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -408,7 +408,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
               decoration: BoxDecoration(
                 color: isActive
-                    ? Colors.white.withOpacity(0.2)
+                    ? Colors.white.withValues(alpha: 0.2)
                     : const Color(0xFFE2E8F0),
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -456,7 +456,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
           boxShadow: isActive
               ? [
                   BoxShadow(
-                    color: const Color(0xFF667EEA).withOpacity(0.3),
+                    color: const Color(0xFF667EEA).withValues(alpha: 0.3),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
                   ),
@@ -479,7 +479,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
               decoration: BoxDecoration(
                 color: isActive
-                    ? Colors.white.withOpacity(0.2)
+                    ? Colors.white.withValues(alpha: 0.2)
                     : const Color(0xFFE2E8F0),
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -506,13 +506,13 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            const Color(0xFF667EEA).withOpacity(0.1),
-            const Color(0xFF764BA2).withOpacity(0.1),
+            const Color(0xFF667EEA).withValues(alpha: 0.1),
+            const Color(0xFF764BA2).withValues(alpha: 0.1),
           ],
         ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: const Color(0xFF667EEA).withOpacity(0.2),
+          color: const Color(0xFF667EEA).withValues(alpha: 0.2),
           width: 1,
         ),
       ),
@@ -577,8 +577,8 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        const Color(0xFF667EEA).withOpacity(0.2),
-                        const Color(0xFF764BA2).withOpacity(0.2),
+                        const Color(0xFF667EEA).withValues(alpha: 0.2),
+                        const Color(0xFF764BA2).withValues(alpha: 0.2),
                       ],
                     ),
                     borderRadius: BorderRadius.circular(60),
@@ -625,7 +625,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Colors.black.withValues(alpha: 0.05),
                   blurRadius: 10,
                   offset: const Offset(0, 2),
                 ),
@@ -723,7 +723,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
           borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.08),
+              color: Colors.black.withValues(alpha: 0.08),
               blurRadius: 20,
               offset: const Offset(0, 4),
             ),
@@ -751,8 +751,8 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
-                              const Color(0xFF667EEA).withOpacity(0.3),
-                              const Color(0xFF764BA2).withOpacity(0.3),
+                              const Color(0xFF667EEA).withValues(alpha: 0.3),
+                              const Color(0xFF764BA2).withValues(alpha: 0.3),
                             ],
                           ),
                         ),
@@ -811,7 +811,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
                             vertical: 4,
                           ),
                           decoration: BoxDecoration(
-                            color: const Color(0xFF667EEA).withOpacity(0.1),
+                            color: const Color(0xFF667EEA).withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
@@ -1061,7 +1061,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
         borderRadius: BorderRadius.circular(28),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF667EEA).withOpacity(0.4),
+            color: const Color(0xFF667EEA).withValues(alpha: 0.4),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -1111,7 +1111,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
             borderRadius: BorderRadius.circular(24),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withValues(alpha: 0.1),
                 blurRadius: 20,
                 offset: const Offset(0, 4),
               ),
@@ -1179,7 +1179,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: isSelected
-              ? const Color(0xFF667EEA).withOpacity(0.1)
+              ? const Color(0xFF667EEA).withValues(alpha: 0.1)
               : const Color(0xFFF8FAFC),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(

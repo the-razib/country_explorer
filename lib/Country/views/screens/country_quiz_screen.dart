@@ -7,7 +7,7 @@ import 'dart:math';
 
 /// Modern quiz game screen for testing country knowledge
 class CountryQuizScreen extends StatefulWidget {
-  const CountryQuizScreen({Key? key}) : super(key: key);
+  const CountryQuizScreen({super.key});
 
   @override
   State<CountryQuizScreen> createState() => _CountryQuizScreenState();
@@ -119,15 +119,15 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
             margin: const EdgeInsets.all(24),
             padding: const EdgeInsets.all(32),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.15),
+              color: Colors.white.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(24),
               border: Border.all(
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withValues(alpha: 0.2),
                 width: 1,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha: 0.1),
                   blurRadius: 20,
                   offset: const Offset(0, 8),
                 ),
@@ -200,12 +200,12 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.15),
+        color: Colors.white.withValues(alpha: 0.15),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withOpacity(0.2), width: 1),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.2), width: 1),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),
@@ -222,7 +222,7 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
                 child: Container(
                   height: 8,
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.3),
+                    color: Colors.white.withValues(alpha: 0.3),
                     borderRadius: BorderRadius.circular(4),
                   ),
                   child: FractionallySizedBox(
@@ -268,7 +268,7 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
                   vertical: 6,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
+                  color: Colors.white.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
@@ -299,7 +299,7 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 20,
             offset: const Offset(0, 4),
           ),
@@ -332,7 +332,7 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.15),
+                    color: Colors.black.withValues(alpha: 0.15),
                     blurRadius: 15,
                     offset: const Offset(0, 6),
                   ),
@@ -383,7 +383,7 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
                 borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: const Color(0xFF667EEA).withOpacity(0.3),
+                    color: const Color(0xFF667EEA).withValues(alpha: 0.3),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
@@ -454,12 +454,12 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
 
     if (isAnswered) {
       if (isCorrect) {
-        backgroundColor = const Color(0xFF10B981).withOpacity(0.1);
+        backgroundColor = const Color(0xFF10B981).withValues(alpha: 0.1);
         borderColor = const Color(0xFF10B981);
         textColor = const Color(0xFF10B981);
         icon = Icons.check_circle_rounded;
       } else if (isSelected && !isCorrect) {
-        backgroundColor = Colors.red.withOpacity(0.1);
+        backgroundColor = Colors.red.withValues(alpha: 0.1);
         borderColor = Colors.red;
         textColor = Colors.red;
         icon = Icons.cancel_rounded;
@@ -470,12 +470,12 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
       }
     } else {
       if (isSelected) {
-        backgroundColor = Colors.white.withOpacity(0.2);
+        backgroundColor = Colors.white.withValues(alpha: 0.2);
         borderColor = Colors.white;
         textColor = Colors.white;
       } else {
-        backgroundColor = Colors.white.withOpacity(0.1);
-        borderColor = Colors.white.withOpacity(0.3);
+        backgroundColor = Colors.white.withValues(alpha: 0.1);
+        borderColor = Colors.white.withValues(alpha: 0.3);
         textColor = Colors.white;
       }
     }
@@ -497,7 +497,7 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
               boxShadow: isSelected && !isAnswered
                   ? [
                       BoxShadow(
-                        color: Colors.white.withOpacity(0.3),
+                        color: Colors.white.withValues(alpha: 0.3),
                         blurRadius: 8,
                         offset: const Offset(0, 4),
                       ),
@@ -559,7 +559,7 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 12,
               offset: const Offset(0, 6),
             ),
@@ -596,12 +596,12 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
         margin: const EdgeInsets.all(24),
         padding: const EdgeInsets.all(32),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.15),
+          color: Colors.white.withValues(alpha: 0.15),
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: Colors.white.withOpacity(0.2), width: 1),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.2), width: 1),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 20,
               offset: const Offset(0, 8),
             ),
@@ -676,7 +676,7 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),

@@ -5,7 +5,7 @@ import '../../controllers/country_controller.dart';
 
 /// Modern user preferences and settings screen
 class PreferencesScreen extends StatefulWidget {
-  const PreferencesScreen({Key? key}) : super(key: key);
+  const PreferencesScreen({super.key});
 
   @override
   State<PreferencesScreen> createState() => _PreferencesScreenState();
@@ -124,9 +124,9 @@ class _PreferencesScreenState extends State<PreferencesScreen>
       leading: Container(
         margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.2),
+          color: Colors.white.withValues(alpha: 0.2),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.white.withOpacity(0.3), width: 1),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.3), width: 1),
         ),
         child: IconButton(
           icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
@@ -165,7 +165,7 @@ class _PreferencesScreenState extends State<PreferencesScreen>
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 20,
             offset: const Offset(0, 4),
           ),
@@ -219,8 +219,8 @@ class _PreferencesScreenState extends State<PreferencesScreen>
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       color: themeController.isDarkMode
-                          ? Colors.orange.withOpacity(0.1)
-                          : Colors.yellow.withOpacity(0.1),
+                          ? Colors.orange.withValues(alpha: 0.1)
+                          : Colors.yellow.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(
@@ -325,7 +325,7 @@ class _PreferencesScreenState extends State<PreferencesScreen>
                           height: 64,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
-                              colors: [color, color.withOpacity(0.8)],
+                              colors: [color, color.withValues(alpha: 0.8)],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
@@ -385,7 +385,7 @@ class _PreferencesScreenState extends State<PreferencesScreen>
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 20,
             offset: const Offset(0, 4),
           ),
@@ -400,7 +400,7 @@ class _PreferencesScreenState extends State<PreferencesScreen>
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.blue.withOpacity(0.1),
+                  color: Colors.blue.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const Icon(
@@ -462,7 +462,7 @@ class _PreferencesScreenState extends State<PreferencesScreen>
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 20,
             offset: const Offset(0, 4),
           ),
@@ -477,7 +477,7 @@ class _PreferencesScreenState extends State<PreferencesScreen>
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.purple.withOpacity(0.1),
+                  color: Colors.purple.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const Icon(
@@ -577,7 +577,7 @@ class _PreferencesScreenState extends State<PreferencesScreen>
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 20,
             offset: const Offset(0, 4),
           ),
@@ -592,7 +592,7 @@ class _PreferencesScreenState extends State<PreferencesScreen>
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.teal.withOpacity(0.1),
+                  color: Colors.teal.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const Icon(
@@ -700,7 +700,7 @@ class _PreferencesScreenState extends State<PreferencesScreen>
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: iconColor.withOpacity(0.1),
+                    color: iconColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(icon, color: iconColor, size: 20),
@@ -752,7 +752,7 @@ class _PreferencesScreenState extends State<PreferencesScreen>
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: iconColor.withOpacity(0.1),
+                      color: iconColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(

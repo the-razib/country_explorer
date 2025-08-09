@@ -7,7 +7,7 @@ import 'country_detail_screen.dart';
 
 /// Interactive world map screen with modern design for visual country exploration
 class WorldMapScreen extends StatefulWidget {
-  const WorldMapScreen({Key? key}) : super(key: key);
+  const WorldMapScreen({super.key});
 
   @override
   State<WorldMapScreen> createState() => _WorldMapScreenState();
@@ -106,9 +106,9 @@ class _WorldMapScreenState extends State<WorldMapScreen>
       leading: Container(
         margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.2),
+          color: Colors.white.withValues(alpha: 0.2),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.white.withOpacity(0.3), width: 1),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.3), width: 1),
         ),
         child: IconButton(
           icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
@@ -139,9 +139,9 @@ class _WorldMapScreenState extends State<WorldMapScreen>
         Container(
           margin: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.2),
+            color: Colors.white.withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.white.withOpacity(0.3), width: 1),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.3), width: 1),
           ),
           child: PopupMenuButton<String>(
             onSelected: _filterByRegion,
@@ -162,8 +162,8 @@ class _WorldMapScreenState extends State<WorldMapScreen>
                             padding: const EdgeInsets.all(6),
                             decoration: BoxDecoration(
                               color: selectedRegion == region
-                                  ? const Color(0xFF667EEA).withOpacity(0.1)
-                                  : Colors.grey.withOpacity(0.1),
+                                  ? const Color(0xFF667EEA).withValues(alpha: 0.1)
+                                  : Colors.grey.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Icon(
@@ -207,12 +207,12 @@ class _WorldMapScreenState extends State<WorldMapScreen>
         margin: const EdgeInsets.all(16),
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.15),
+          color: Colors.white.withValues(alpha: 0.15),
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: Colors.white.withOpacity(0.2), width: 1),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.2), width: 1),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 20,
               offset: const Offset(0, 8),
             ),
@@ -223,7 +223,7 @@ class _WorldMapScreenState extends State<WorldMapScreen>
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: const Icon(
@@ -253,7 +253,7 @@ class _WorldMapScreenState extends State<WorldMapScreen>
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
-                      color: Colors.white.withOpacity(0.8),
+                      color: Colors.white.withValues(alpha: 0.8),
                     ),
                   ),
                 ],
@@ -262,7 +262,7 @@ class _WorldMapScreenState extends State<WorldMapScreen>
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
@@ -352,7 +352,7 @@ class _WorldMapScreenState extends State<WorldMapScreen>
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 20,
             offset: const Offset(0, 4),
           ),
@@ -372,14 +372,14 @@ class _WorldMapScreenState extends State<WorldMapScreen>
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [color, color.withOpacity(0.7)],
+                      colors: [color, color.withValues(alpha: 0.7)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color: color.withOpacity(0.3),
+                        color: color.withValues(alpha: 0.3),
                         blurRadius: 12,
                         offset: const Offset(0, 6),
                       ),
@@ -418,10 +418,10 @@ class _WorldMapScreenState extends State<WorldMapScreen>
                           vertical: 6,
                         ),
                         decoration: BoxDecoration(
-                          color: color.withOpacity(0.1),
+                          color: color.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: color.withOpacity(0.2),
+                            color: color.withValues(alpha: 0.2),
                             width: 1,
                           ),
                         ),
@@ -442,7 +442,7 @@ class _WorldMapScreenState extends State<WorldMapScreen>
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: color.withOpacity(0.1),
+                    color: color.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(
@@ -467,7 +467,7 @@ class _WorldMapScreenState extends State<WorldMapScreen>
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 15,
             offset: const Offset(0, 4),
           ),
@@ -492,7 +492,7 @@ class _WorldMapScreenState extends State<WorldMapScreen>
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
+                          color: Colors.black.withValues(alpha: 0.1),
                           blurRadius: 8,
                           offset: const Offset(0, 4),
                         ),
@@ -593,7 +593,7 @@ class _WorldMapScreenState extends State<WorldMapScreen>
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF667EEA).withOpacity(0.3),
+            color: const Color(0xFF667EEA).withValues(alpha: 0.3),
             blurRadius: 12,
             offset: const Offset(0, 6),
           ),

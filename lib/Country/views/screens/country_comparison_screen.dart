@@ -8,8 +8,7 @@ import '../../models/country_model.dart';
 class CountryComparisonScreen extends StatefulWidget {
   final List<Country> initialCountries;
 
-  const CountryComparisonScreen({Key? key, this.initialCountries = const []})
-    : super(key: key);
+  const CountryComparisonScreen({super.key, this.initialCountries = const []});
 
   @override
   State<CountryComparisonScreen> createState() =>
@@ -122,9 +121,12 @@ class _CountryComparisonScreenState extends State<CountryComparisonScreen>
       leading: Container(
         margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.2),
+          color: Colors.white.withValues(alpha: 0.2),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.white.withOpacity(0.3), width: 1),
+          border: Border.all(
+            color: Colors.white.withValues(alpha: 0.3),
+            width: 1,
+          ),
         ),
         child: IconButton(
           icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
@@ -136,10 +138,10 @@ class _CountryComparisonScreenState extends State<CountryComparisonScreen>
           Container(
             margin: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
+              color: Colors.white.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: Colors.white.withOpacity(0.3),
+                color: Colors.white.withValues(alpha: 0.3),
                 width: 1,
               ),
             ),
@@ -153,10 +155,10 @@ class _CountryComparisonScreenState extends State<CountryComparisonScreen>
           Container(
             margin: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
+              color: Colors.white.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: Colors.white.withOpacity(0.3),
+                color: Colors.white.withValues(alpha: 0.3),
                 width: 1,
               ),
             ),
@@ -206,15 +208,15 @@ class _CountryComparisonScreenState extends State<CountryComparisonScreen>
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
-                      Colors.white.withOpacity(0.3),
-                      Colors.white.withOpacity(0.1),
+                      Colors.white.withValues(alpha: 0.3),
+                      Colors.white.withValues(alpha: 0.1),
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                   borderRadius: BorderRadius.circular(30),
                   border: Border.all(
-                    color: Colors.white.withOpacity(0.2),
+                    color: Colors.white.withValues(alpha: 0.2),
                     width: 1,
                   ),
                 ),
@@ -241,7 +243,7 @@ class _CountryComparisonScreenState extends State<CountryComparisonScreen>
                 'Add countries to compare their statistics,\ngeography, and discover interesting facts!',
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.white.withOpacity(0.8),
+                  color: Colors.white.withValues(alpha: 0.8),
                   height: 1.5,
                 ),
                 textAlign: TextAlign.center,
@@ -259,7 +261,7 @@ class _CountryComparisonScreenState extends State<CountryComparisonScreen>
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black.withValues(alpha: 0.1),
                       blurRadius: 20,
                       offset: const Offset(0, 8),
                     ),
@@ -333,7 +335,7 @@ class _CountryComparisonScreenState extends State<CountryComparisonScreen>
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 20,
             offset: const Offset(0, 4),
           ),
@@ -420,7 +422,7 @@ class _CountryComparisonScreenState extends State<CountryComparisonScreen>
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),
@@ -458,7 +460,7 @@ class _CountryComparisonScreenState extends State<CountryComparisonScreen>
           /// Remove button
           Container(
             decoration: BoxDecoration(
-              color: Colors.red.withOpacity(0.1),
+              color: Colors.red.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: IconButton(
@@ -545,7 +547,7 @@ class _CountryComparisonScreenState extends State<CountryComparisonScreen>
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 20,
             offset: const Offset(0, 4),
           ),
@@ -560,7 +562,7 @@ class _CountryComparisonScreenState extends State<CountryComparisonScreen>
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: color.withOpacity(0.1),
+                  color: color.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Icon(icon, color: color, size: 24),
@@ -796,7 +798,7 @@ class _CountryComparisonScreenState extends State<CountryComparisonScreen>
                         borderRadius: BorderRadius.circular(8),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
+                            color: Colors.black.withValues(alpha: 0.1),
                             blurRadius: 4,
                             offset: const Offset(0, 2),
                           ),
@@ -848,7 +850,7 @@ class _CountryComparisonScreenState extends State<CountryComparisonScreen>
         actions: [
           Container(
             decoration: BoxDecoration(
-              color: Colors.grey.withOpacity(0.1),
+              color: Colors.grey.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: TextButton(
