@@ -20,7 +20,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
   @override
   void initState() {
     super.initState();
-    
+
     /// Initialize animation controllers for smooth transitions
     _fadeController = AnimationController(
       duration: const Duration(milliseconds: 600),
@@ -30,16 +30,17 @@ class _AchievementsScreenState extends State<AchievementsScreen>
       duration: const Duration(milliseconds: 800),
       vsync: this,
     );
-    
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _fadeController, curve: Curves.easeOut),
-    );
-    
+
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeOut));
+
     _slideAnimation = Tween<Offset>(
       begin: const Offset(0, 0.1),
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _slideController, curve: Curves.easeOut));
-    
+
     /// Start animations when screen loads
     _fadeController.forward();
     _slideController.forward();
@@ -56,7 +57,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
         slivers: [
           /// Modern app bar with glass-morphism effect
           _buildModernSliverAppBar(),
-          
+
           /// Progress overview section
           SliverToBoxAdapter(
             child: SlideTransition(
@@ -67,36 +68,31 @@ class _AchievementsScreenState extends State<AchievementsScreen>
               ),
             ),
           ),
-          
+
           /// Achievements section header
-          SliverToBoxAdapter(
-            child: _buildModernSectionHeader(),
-          ),
-          
+          SliverToBoxAdapter(child: _buildModernSectionHeader()),
+
           /// Achievements grid with staggered animation
           Obx(
             () => SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               sliver: SliverGrid(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    final achievement = achievementController.achievements[index];
-                    return TweenAnimationBuilder<double>(
-                      tween: Tween(begin: 0.0, end: 1.0),
-                      duration: Duration(milliseconds: 300 + (index * 100)),
-                      builder: (context, value, child) {
-                        return Transform.translate(
-                          offset: Offset(0, 20 * (1 - value)),
-                          child: Opacity(
-                            opacity: value,
-                            child: _buildModernAchievementCard(achievement),
-                          ),
-                        );
-                      },
-                    );
-                  },
-                  childCount: achievementController.achievements.length,
-                ),
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  final achievement = achievementController.achievements[index];
+                  return TweenAnimationBuilder<double>(
+                    tween: Tween(begin: 0.0, end: 1.0),
+                    duration: Duration(milliseconds: 300 + (index * 100)),
+                    builder: (context, value, child) {
+                      return Transform.translate(
+                        offset: Offset(0, 20 * (1 - value)),
+                        child: Opacity(
+                          opacity: value,
+                          child: _buildModernAchievementCard(achievement),
+                        ),
+                      );
+                    },
+                  );
+                }, childCount: achievementController.achievements.length),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 16,
@@ -106,11 +102,9 @@ class _AchievementsScreenState extends State<AchievementsScreen>
               ),
             ),
           ),
-          
+
           /// Bottom spacing
-          const SliverToBoxAdapter(
-            child: SizedBox(height: 32),
-          ),
+          const SliverToBoxAdapter(child: SizedBox(height: 32)),
         ],
       ),
     );
@@ -130,10 +124,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF667EEA),
-              Color(0xFF764BA2),
-            ],
+            colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
           ),
         ),
         child: FlexibleSpaceBar(
@@ -151,10 +142,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [
-                  Color(0xFF667EEA),
-                  Color(0xFF764BA2),
-                ],
+                colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
               ),
             ),
             child: Stack(
@@ -166,13 +154,16 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                     child: Container(
                       decoration: const BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage('https://www.transparenttextures.com/patterns/cubes.png'),
+                          image: NetworkImage(
+                            'https://www.transparenttextures.com/patterns/cubes.png',
+                          ),
                           repeat: ImageRepeat.repeat,
                         ),
                       ),
                     ),
                   ),
                 ),
+
                 /// Trophy icon decoration
                 Positioned(
                   right: 20,
@@ -204,10 +195,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.2),
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(
-            color: Colors.white.withOpacity(0.3),
-            width: 1,
-          ),
+          border: Border.all(color: Colors.white.withOpacity(0.3), width: 1),
         ),
         child: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -220,10 +208,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
           decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.2),
             borderRadius: BorderRadius.circular(24),
-            border: Border.all(
-              color: Colors.white.withOpacity(0.3),
-              width: 1,
-            ),
+            border: Border.all(color: Colors.white.withOpacity(0.3), width: 1),
           ),
           child: IconButton(
             icon: const Icon(Icons.refresh, color: Colors.white),
@@ -282,7 +267,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
               ],
             ),
             const SizedBox(height: 24),
-            
+
             /// Progress circle with modern styling
             SizedBox(
               width: 140,
@@ -297,9 +282,12 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                       value: 1.0,
                       strokeWidth: 12,
                       backgroundColor: const Color(0xFFF1F5F9),
-                      valueColor: const AlwaysStoppedAnimation(Color(0xFFF1F5F9)),
+                      valueColor: const AlwaysStoppedAnimation(
+                        Color(0xFFF1F5F9),
+                      ),
                     ),
                   ),
+
                   /// Progress circle with gradient effect
                   SizedBox(
                     width: 140,
@@ -308,9 +296,12 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                       value: controller.completionPercentage,
                       strokeWidth: 12,
                       backgroundColor: Colors.transparent,
-                      valueColor: const AlwaysStoppedAnimation(Color(0xFF667EEA)),
+                      valueColor: const AlwaysStoppedAnimation(
+                        Color(0xFF667EEA),
+                      ),
                     ),
                   ),
+
                   /// Center content
                   Center(
                     child: Container(
@@ -380,7 +371,8 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                 Expanded(
                   child: _buildModernStatCard(
                     'Remaining',
-                    (controller.achievements.length - controller.unlockedCount).toString(),
+                    (controller.achievements.length - controller.unlockedCount)
+                        .toString(),
                     Icons.lock_rounded,
                     const Color(0xFF64748B),
                   ),
@@ -394,16 +386,18 @@ class _AchievementsScreenState extends State<AchievementsScreen>
   }
 
   /// Modern stat card with gradient background
-  Widget _buildModernStatCard(String label, String value, IconData icon, Color color) {
+  Widget _buildModernStatCard(
+    String label,
+    String value,
+    IconData icon,
+    Color color,
+  ) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: color.withOpacity(0.1),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: color.withOpacity(0.2),
-          width: 1,
-        ),
+        border: Border.all(color: color.withOpacity(0.2), width: 1),
       ),
       child: Column(
         children: [
@@ -413,11 +407,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
               color: color,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(
-              icon,
-              color: Colors.white,
-              size: 20,
-            ),
+            child: Icon(icon, color: Colors.white, size: 20),
           ),
           const SizedBox(height: 8),
           Text(
@@ -487,7 +477,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
           borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
-              color: isUnlocked 
+              color: isUnlocked
                   ? const Color(0xFF667EEA).withOpacity(0.15)
                   : Colors.black.withOpacity(0.08),
               blurRadius: 20,
@@ -543,7 +533,9 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
-                  color: isUnlocked ? const Color(0xFF1E293B) : const Color(0xFF64748B),
+                  color: isUnlocked
+                      ? const Color(0xFF1E293B)
+                      : const Color(0xFF64748B),
                 ),
                 textAlign: TextAlign.center,
                 maxLines: 2,
@@ -554,9 +546,12 @@ class _AchievementsScreenState extends State<AchievementsScreen>
 
               /// Status indicator with modern design
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
-                  color: isUnlocked 
+                  color: isUnlocked
                       ? const Color(0xFF10B981).withOpacity(0.1)
                       : const Color(0xFF64748B).withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
@@ -565,9 +560,13 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
-                      isUnlocked ? Icons.check_circle_rounded : Icons.lock_rounded,
+                      isUnlocked
+                          ? Icons.check_circle_rounded
+                          : Icons.lock_rounded,
                       size: 16,
-                      color: isUnlocked ? const Color(0xFF10B981) : const Color(0xFF64748B),
+                      color: isUnlocked
+                          ? const Color(0xFF10B981)
+                          : const Color(0xFF64748B),
                     ),
                     const SizedBox(width: 6),
                     Text(
@@ -575,7 +574,9 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
-                        color: isUnlocked ? const Color(0xFF10B981) : const Color(0xFF64748B),
+                        color: isUnlocked
+                            ? const Color(0xFF10B981)
+                            : const Color(0xFF64748B),
                       ),
                     ),
                   ],
@@ -591,7 +592,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
   /// Modern reset dialog with enhanced styling
   void _showModernResetDialog() {
     final achievementController = Get.find<AchievementController>();
-    
+
     Get.dialog(
       Dialog(
         backgroundColor: Colors.transparent,
@@ -638,7 +639,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                 ],
               ),
               const SizedBox(height: 20),
-              
+
               /// Warning message
               Text(
                 'This will reset all your progress and achievements. This action cannot be undone.',
@@ -650,7 +651,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 24),
-              
+
               /// Action buttons
               Row(
                 children: [
@@ -767,7 +768,9 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                               colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
                             )
                           : null,
-                      color: achievement.isUnlocked ? null : const Color(0xFFF1F5F9),
+                      color: achievement.isUnlocked
+                          ? null
+                          : const Color(0xFFF1F5F9),
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: achievement.isUnlocked
                           ? [
@@ -781,8 +784,8 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                     ),
                     child: Icon(
                       _getIconData(achievement.iconName),
-                      color: achievement.isUnlocked 
-                          ? Colors.white 
+                      color: achievement.isUnlocked
+                          ? Colors.white
                           : const Color(0xFF94A3B8),
                       size: 24,
                     ),
@@ -794,8 +797,8 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
-                        color: achievement.isUnlocked 
-                            ? const Color(0xFF1E293B) 
+                        color: achievement.isUnlocked
+                            ? const Color(0xFF1E293B)
                             : const Color(0xFF64748B),
                       ),
                     ),
@@ -803,7 +806,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                 ],
               ),
               const SizedBox(height: 20),
-              
+
               /// Description
               Container(
                 padding: const EdgeInsets.all(16),
@@ -840,7 +843,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                 child: Row(
                   children: [
                     Icon(
-                      achievement.isUnlocked 
+                      achievement.isUnlocked
                           ? Icons.event_available_rounded
                           : Icons.flag_rounded,
                       size: 20,
@@ -867,7 +870,7 @@ class _AchievementsScreenState extends State<AchievementsScreen>
                 ),
               ),
               const SizedBox(height: 24),
-              
+
               /// Close button
               Container(
                 width: double.infinity,

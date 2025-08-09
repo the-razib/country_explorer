@@ -20,7 +20,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
   late AnimationController _slideController;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
-  
+
   // Search filters
   String selectedRegion = 'All';
   String selectedSubregion = 'All';
@@ -28,7 +28,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
   bool? isUnMember;
   String populationRange = 'All';
   String areaRange = 'All';
-  
+
   // Search results
   List<Country> searchResults = [];
   bool isSearching = false;
@@ -37,7 +37,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
   void initState() {
     super.initState();
     searchResults = controller.countries;
-    
+
     /// Initialize animation controllers for smooth transitions
     _fadeController = AnimationController(
       duration: const Duration(milliseconds: 600),
@@ -47,16 +47,17 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
       duration: const Duration(milliseconds: 800),
       vsync: this,
     );
-    
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _fadeController, curve: Curves.easeOut),
-    );
-    
+
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeOut));
+
     _slideAnimation = Tween<Offset>(
       begin: const Offset(0, 0.1),
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _slideController, curve: Curves.easeOut));
-    
+
     /// Start animations when screen loads
     _fadeController.forward();
     _slideController.forward();
@@ -70,7 +71,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
         slivers: [
           /// Modern app bar with glass-morphism effect
           _buildModernAppBar(),
-          
+
           /// Search filters section
           SliverToBoxAdapter(
             child: SlideTransition(
@@ -81,12 +82,10 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
               ),
             ),
           ),
-          
+
           /// Results count with modern styling
-          SliverToBoxAdapter(
-            child: _buildModernResultsHeader(),
-          ),
-          
+          SliverToBoxAdapter(child: _buildModernResultsHeader()),
+
           /// Search results with staggered animation
           isSearching
               ? const SliverToBoxAdapter(
@@ -98,8 +97,8 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
                   ),
                 )
               : searchResults.isEmpty
-                  ? SliverToBoxAdapter(child: _buildModernEmptyState())
-                  : _buildModernResultsList(),
+              ? SliverToBoxAdapter(child: _buildModernEmptyState())
+              : _buildModernResultsList(),
         ],
       ),
       floatingActionButton: _buildModernFloatingActionButton(),
@@ -120,10 +119,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF667EEA),
-              Color(0xFF764BA2),
-            ],
+            colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
           ),
         ),
         child: FlexibleSpaceBar(
@@ -141,10 +137,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [
-                  Color(0xFF667EEA),
-                  Color(0xFF764BA2),
-                ],
+                colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
               ),
             ),
             child: Stack(
@@ -156,13 +149,16 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
                     child: Container(
                       decoration: const BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage('https://www.transparenttextures.com/patterns/cubes.png'),
+                          image: NetworkImage(
+                            'https://www.transparenttextures.com/patterns/cubes.png',
+                          ),
                           repeat: ImageRepeat.repeat,
                         ),
                       ),
                     ),
                   ),
                 ),
+
                 /// Search icon decoration
                 Positioned(
                   right: 20,
@@ -194,10 +190,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.2),
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(
-            color: Colors.white.withOpacity(0.3),
-            width: 1,
-          ),
+          border: Border.all(color: Colors.white.withOpacity(0.3), width: 1),
         ),
         child: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -255,25 +248,19 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
             ],
           ),
           const SizedBox(height: 20),
-          
+
           /// Text search field with modern styling
           Container(
             decoration: BoxDecoration(
               color: const Color(0xFFF8FAFC),
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: const Color(0xFFE2E8F0),
-                width: 1,
-              ),
+              border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
             ),
             child: TextField(
               controller: searchController,
               decoration: InputDecoration(
                 hintText: 'Search by name, capital, or code...',
-                hintStyle: TextStyle(
-                  color: Colors.grey[500],
-                  fontSize: 16,
-                ),
+                hintStyle: TextStyle(color: Colors.grey[500], fontSize: 16),
                 prefixIcon: Container(
                   margin: const EdgeInsets.all(8),
                   padding: const EdgeInsets.all(8),
@@ -318,15 +305,12 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
                   vertical: 16,
                 ),
               ),
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-              ),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               onChanged: (_) => _performSearch(),
             ),
           ),
           const SizedBox(height: 20),
-          
+
           /// Filter chips with enhanced design
           const Text(
             'Quick Filters',
@@ -341,13 +325,23 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                _buildModernFilterChip('Region', selectedRegion, _showRegionDialog),
+                _buildModernFilterChip(
+                  'Region',
+                  selectedRegion,
+                  _showRegionDialog,
+                ),
                 const SizedBox(width: 12),
-                _buildModernFilterChip('Population', populationRange, _showPopulationDialog),
+                _buildModernFilterChip(
+                  'Population',
+                  populationRange,
+                  _showPopulationDialog,
+                ),
                 const SizedBox(width: 12),
                 _buildModernFilterChip('Area', areaRange, _showAreaDialog),
                 const SizedBox(width: 12),
-                _buildModernBooleanFilterChip('Independent', isIndependent, (value) {
+                _buildModernBooleanFilterChip('Independent', isIndependent, (
+                  value,
+                ) {
                   setState(() => isIndependent = value);
                   _performSearch();
                 }),
@@ -365,7 +359,11 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
   }
 
   /// Modern filter chip with enhanced styling
-  Widget _buildModernFilterChip(String label, String value, VoidCallback onTap) {
+  Widget _buildModernFilterChip(
+    String label,
+    String value,
+    VoidCallback onTap,
+  ) {
     final isActive = value != 'All';
     return GestureDetector(
       onTap: onTap,
@@ -381,9 +379,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
           color: isActive ? null : const Color(0xFFF1F5F9),
           borderRadius: BorderRadius.circular(24),
           border: Border.all(
-            color: isActive 
-                ? Colors.transparent 
-                : const Color(0xFFE2E8F0),
+            color: isActive ? Colors.transparent : const Color(0xFFE2E8F0),
             width: 1,
           ),
           boxShadow: isActive
@@ -411,7 +407,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
               decoration: BoxDecoration(
-                color: isActive 
+                color: isActive
                     ? Colors.white.withOpacity(0.2)
                     : const Color(0xFFE2E8F0),
                 borderRadius: BorderRadius.circular(12),
@@ -432,10 +428,14 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
   }
 
   /// Modern boolean filter chip with enhanced design
-  Widget _buildModernBooleanFilterChip(String label, bool? value, Function(bool?) onChanged) {
+  Widget _buildModernBooleanFilterChip(
+    String label,
+    bool? value,
+    Function(bool?) onChanged,
+  ) {
     String displayValue = value == null ? 'All' : (value ? 'Yes' : 'No');
     final isActive = value != null;
-    
+
     return GestureDetector(
       onTap: () => _showModernBooleanDialog(label, value, onChanged),
       child: AnimatedContainer(
@@ -450,9 +450,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
           color: isActive ? null : const Color(0xFFF1F5F9),
           borderRadius: BorderRadius.circular(24),
           border: Border.all(
-            color: isActive 
-                ? Colors.transparent 
-                : const Color(0xFFE2E8F0),
+            color: isActive ? Colors.transparent : const Color(0xFFE2E8F0),
             width: 1,
           ),
           boxShadow: isActive
@@ -480,7 +478,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
               decoration: BoxDecoration(
-                color: isActive 
+                color: isActive
                     ? Colors.white.withOpacity(0.2)
                     : const Color(0xFFE2E8F0),
                 borderRadius: BorderRadius.circular(12),
@@ -528,11 +526,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
               ),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(
-              Icons.bar_chart,
-              color: Colors.white,
-              size: 20,
-            ),
+            child: const Icon(Icons.bar_chart, color: Colors.white, size: 20),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -599,7 +593,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
             },
           ),
           const SizedBox(height: 24),
-          
+
           /// Main message
           const Text(
             'No Countries Found',
@@ -610,7 +604,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
             ),
           ),
           const SizedBox(height: 8),
-          
+
           /// Subtitle
           Text(
             'Try adjusting your search filters to find more countries',
@@ -622,7 +616,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
             ),
           ),
           const SizedBox(height: 32),
-          
+
           /// Suggestion cards
           Container(
             padding: const EdgeInsets.all(20),
@@ -686,28 +680,25 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
     return SliverPadding(
       padding: const EdgeInsets.all(16),
       sliver: SliverGrid(
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            final country = searchResults[index];
-            return TweenAnimationBuilder<double>(
-              tween: Tween(begin: 0.0, end: 1.0),
-              duration: Duration(milliseconds: 300 + (index * 50)),
-              builder: (context, value, child) {
-                return Transform.translate(
-                  offset: Offset(0, 20 * (1 - value)),
-                  child: Opacity(
-                    opacity: value,
-                    child: Hero(
-                      tag: 'country-card-${country.name.common}',
-                      child: _buildModernCountryCard(country),
-                    ),
+        delegate: SliverChildBuilderDelegate((context, index) {
+          final country = searchResults[index];
+          return TweenAnimationBuilder<double>(
+            tween: Tween(begin: 0.0, end: 1.0),
+            duration: Duration(milliseconds: 300 + (index * 50)),
+            builder: (context, value, child) {
+              return Transform.translate(
+                offset: Offset(0, 20 * (1 - value)),
+                child: Opacity(
+                  opacity: value,
+                  child: Hero(
+                    tag: 'country-card-${country.name.common}',
+                    child: _buildModernCountryCard(country),
                   ),
-                );
-              },
-            );
-          },
-          childCount: searchResults.length,
-        ),
+                ),
+              );
+            },
+          );
+        }, childCount: searchResults.length),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           childAspectRatio: 0.75,
@@ -749,7 +740,9 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
                   borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
                 ),
                 child: ClipRRect(
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(24),
+                  ),
                   child: Image.network(
                     country.flags.png,
                     fit: BoxFit.cover,
@@ -774,7 +767,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
                 ),
               ),
             ),
-            
+
             /// Country info
             Expanded(
               flex: 2,
@@ -795,7 +788,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    
+
                     /// Capital and region
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -845,46 +838,54 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
   /// Perform search with all filters
   void _performSearch() {
     setState(() => isSearching = true);
-    
+
     List<Country> results = List.from(controller.countries);
-    
+
     // Text search
     final query = searchController.text.toLowerCase().trim();
     if (query.isNotEmpty) {
       results = results.where((country) {
         return country.name.common.toLowerCase().contains(query) ||
-               country.name.official.toLowerCase().contains(query) ||
-               country.capital.any((capital) => capital.toLowerCase().contains(query)) ||
-               country.region.toLowerCase().contains(query) ||
-               country.subregion.toLowerCase().contains(query);
+            country.name.official.toLowerCase().contains(query) ||
+            country.capital.any(
+              (capital) => capital.toLowerCase().contains(query),
+            ) ||
+            country.region.toLowerCase().contains(query) ||
+            country.subregion.toLowerCase().contains(query);
       }).toList();
     }
-    
+
     // Region filter
     if (selectedRegion != 'All') {
-      results = results.where((country) => country.region == selectedRegion).toList();
+      results = results
+          .where((country) => country.region == selectedRegion)
+          .toList();
     }
-    
+
     // Population filter
     if (populationRange != 'All') {
       results = _filterByPopulation(results, populationRange);
     }
-    
+
     // Area filter
     if (areaRange != 'All') {
       results = _filterByArea(results, areaRange);
     }
-    
+
     // Independence filter
     if (isIndependent != null) {
-      results = results.where((country) => country.independent == isIndependent).toList();
+      results = results
+          .where((country) => country.independent == isIndependent)
+          .toList();
     }
-    
+
     // UN membership filter
     if (isUnMember != null) {
-      results = results.where((country) => country.unMember == isUnMember).toList();
+      results = results
+          .where((country) => country.unMember == isUnMember)
+          .toList();
     }
-    
+
     setState(() {
       searchResults = results;
       isSearching = false;
@@ -897,9 +898,13 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
       case 'Small (< 1M)':
         return countries.where((c) => c.population < 1000000).toList();
       case 'Medium (1M - 10M)':
-        return countries.where((c) => c.population >= 1000000 && c.population < 10000000).toList();
+        return countries
+            .where((c) => c.population >= 1000000 && c.population < 10000000)
+            .toList();
       case 'Large (10M - 100M)':
-        return countries.where((c) => c.population >= 10000000 && c.population < 100000000).toList();
+        return countries
+            .where((c) => c.population >= 10000000 && c.population < 100000000)
+            .toList();
       case 'Very Large (> 100M)':
         return countries.where((c) => c.population >= 100000000).toList();
       default:
@@ -911,13 +916,25 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
   List<Country> _filterByArea(List<Country> countries, String range) {
     switch (range) {
       case 'Small (< 10K km²)':
-        return countries.where((c) => c.area != null && c.area! < 10000).toList();
+        return countries
+            .where((c) => c.area != null && c.area! < 10000)
+            .toList();
       case 'Medium (10K - 100K km²)':
-        return countries.where((c) => c.area != null && c.area! >= 10000 && c.area! < 100000).toList();
+        return countries
+            .where(
+              (c) => c.area != null && c.area! >= 10000 && c.area! < 100000,
+            )
+            .toList();
       case 'Large (100K - 1M km²)':
-        return countries.where((c) => c.area != null && c.area! >= 100000 && c.area! < 1000000).toList();
+        return countries
+            .where(
+              (c) => c.area != null && c.area! >= 100000 && c.area! < 1000000,
+            )
+            .toList();
       case 'Very Large (> 1M km²)':
-        return countries.where((c) => c.area != null && c.area! >= 1000000).toList();
+        return countries
+            .where((c) => c.area != null && c.area! >= 1000000)
+            .toList();
       default:
         return countries;
     }
@@ -925,8 +942,11 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
 
   /// Show region selection dialog
   void _showRegionDialog() {
-    final regions = ['All', ...controller.availableRegions.where((r) => r != 'All')];
-    
+    final regions = [
+      'All',
+      ...controller.availableRegions.where((r) => r != 'All'),
+    ];
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -964,7 +984,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
       'Large (10M - 100M)',
       'Very Large (> 100M)',
     ];
-    
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -1002,7 +1022,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
       'Large (100K - 1M km²)',
       'Very Large (> 1M km²)',
     ];
-    
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -1051,16 +1071,10 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
         onPressed: _resetModernFilters,
         backgroundColor: Colors.transparent,
         elevation: 0,
-        icon: const Icon(
-          Icons.refresh,
-          color: Colors.white,
-        ),
+        icon: const Icon(Icons.refresh, color: Colors.white),
         label: const Text(
           'Reset Filters',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
-          ),
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
         ),
       ),
     );
@@ -1081,7 +1095,11 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
   }
 
   /// Modern boolean dialog with enhanced styling
-  void _showModernBooleanDialog(String title, bool? currentValue, Function(bool?) onChanged) {
+  void _showModernBooleanDialog(
+    String title,
+    bool? currentValue,
+    Function(bool?) onChanged,
+  ) {
     showDialog(
       context: context,
       builder: (context) => Dialog(
@@ -1131,7 +1149,7 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
                 ],
               ),
               const SizedBox(height: 20),
-              
+
               /// Options
               _buildModernRadioOption('All', null, currentValue, onChanged),
               _buildModernRadioOption('Yes', true, currentValue, onChanged),
@@ -1144,7 +1162,12 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
   }
 
   /// Build modern radio option
-  Widget _buildModernRadioOption(String label, bool? value, bool? currentValue, Function(bool?) onChanged) {
+  Widget _buildModernRadioOption(
+    String label,
+    bool? value,
+    bool? currentValue,
+    Function(bool?) onChanged,
+  ) {
     final isSelected = value == currentValue;
     return GestureDetector(
       onTap: () {
@@ -1155,12 +1178,12 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
         margin: const EdgeInsets.only(bottom: 12),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: isSelected 
+          color: isSelected
               ? const Color(0xFF667EEA).withOpacity(0.1)
               : const Color(0xFFF8FAFC),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected 
+            color: isSelected
                 ? const Color(0xFF667EEA)
                 : const Color(0xFFE2E8F0),
             width: isSelected ? 2 : 1,
@@ -1173,18 +1196,18 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
               height: 20,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: isSelected ? const Color(0xFF667EEA) : Colors.transparent,
+                color: isSelected
+                    ? const Color(0xFF667EEA)
+                    : Colors.transparent,
                 border: Border.all(
-                  color: isSelected ? const Color(0xFF667EEA) : const Color(0xFFCBD5E1),
+                  color: isSelected
+                      ? const Color(0xFF667EEA)
+                      : const Color(0xFFCBD5E1),
                   width: 2,
                 ),
               ),
               child: isSelected
-                  ? const Icon(
-                      Icons.check,
-                      color: Colors.white,
-                      size: 12,
-                    )
+                  ? const Icon(Icons.check, color: Colors.white, size: 12)
                   : null,
             ),
             const SizedBox(width: 12),
@@ -1193,7 +1216,9 @@ class _AdvancedSearchScreenState extends State<AdvancedSearchScreen>
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
-                color: isSelected ? const Color(0xFF667EEA) : const Color(0xFF64748B),
+                color: isSelected
+                    ? const Color(0xFF667EEA)
+                    : const Color(0xFF64748B),
               ),
             ),
           ],

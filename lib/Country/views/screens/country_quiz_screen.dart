@@ -16,20 +16,20 @@ class CountryQuizScreen extends StatefulWidget {
 class _CountryQuizScreenState extends State<CountryQuizScreen>
     with TickerProviderStateMixin {
   final controller = Get.find<CountryController>();
-  
+
   // Animation controllers
   late AnimationController _fadeController;
   late AnimationController _slideController;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
-  
+
   // Quiz state
   int currentQuestion = 0;
   int score = 0;
   bool isAnswered = false;
   int? selectedAnswer;
   late List<QuizQuestion> questions;
-  
+
   // Quiz types
   final List<QuizType> quizTypes = [
     QuizType.flagToCountry,
@@ -42,7 +42,7 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
   @override
   void initState() {
     super.initState();
-    
+
     /// Initialize animation controllers
     _fadeController = AnimationController(
       duration: const Duration(milliseconds: 600),
@@ -52,18 +52,19 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
       duration: const Duration(milliseconds: 800),
       vsync: this,
     );
-    
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _fadeController, curve: Curves.easeOut),
-    );
-    
+
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeOut));
+
     _slideAnimation = Tween<Offset>(
       begin: const Offset(0, 0.1),
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _slideController, curve: Curves.easeOut));
-    
+
     _generateQuestions();
-    
+
     /// Start animations
     _fadeController.forward();
     _slideController.forward();
@@ -89,10 +90,7 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF667EEA),
-              Color(0xFF764BA2),
-            ],
+            colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
           ),
         ),
         child: SafeArea(
@@ -113,10 +111,7 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF667EEA),
-              Color(0xFF764BA2),
-            ],
+            colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
           ),
         ),
         child: Center(
@@ -141,11 +136,7 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
             child: const Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  Icons.quiz_rounded,
-                  color: Colors.white,
-                  size: 48,
-                ),
+                Icon(Icons.quiz_rounded, color: Colors.white, size: 48),
                 SizedBox(height: 24),
                 CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
@@ -186,18 +177,16 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
           children: [
             /// Modern header with progress
             _buildModernHeader(),
-            
+
             /// Question content
-            Expanded(
-              child: _buildQuestionContent(),
-            ),
-            
+            Expanded(child: _buildQuestionContent()),
+
             /// Answer options
             _buildAnswerOptions(),
-            
+
             /// Next button
             if (isAnswered) _buildNextButton(),
-            
+
             const SizedBox(height: 24),
           ],
         ),
@@ -213,10 +202,7 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.15),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: Colors.white.withOpacity(0.2),
-          width: 1,
-        ),
+        border: Border.all(color: Colors.white.withOpacity(0.2), width: 1),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
@@ -230,11 +216,7 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
           /// Progress bar
           Row(
             children: [
-              const Icon(
-                Icons.quiz_rounded,
-                color: Colors.white,
-                size: 20,
-              ),
+              const Icon(Icons.quiz_rounded, color: Colors.white, size: 20),
               const SizedBox(width: 8),
               Expanded(
                 child: Container(
@@ -267,7 +249,7 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
             ],
           ),
           const SizedBox(height: 16),
-          
+
           /// Score display
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -281,7 +263,10 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(12),
@@ -305,7 +290,7 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
   /// Question content with modern styling
   Widget _buildQuestionContent() {
     final question = questions[currentQuestion];
-    
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
       padding: const EdgeInsets.all(24),
@@ -360,9 +345,7 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
                   fit: BoxFit.cover,
                   placeholder: (context, url) => Container(
                     color: const Color(0xFFF1F5F9),
-                    child: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
+                    child: const Center(child: CircularProgressIndicator()),
                   ),
                   errorWidget: (context, url, error) => Container(
                     color: const Color(0xFFF1F5F9),
@@ -377,7 +360,7 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
             ),
           ],
         );
-        
+
       case QuizType.countryToCapital:
         return Column(
           children: [
@@ -428,7 +411,7 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
             ),
           ],
         );
-        
+
       default:
         return Text(
           question.getQuestionText(),
@@ -446,7 +429,7 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
   Widget _buildAnswerOptions() {
     final question = questions[currentQuestion];
     final answers = question.getShuffledAnswers();
-    
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -463,12 +446,12 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
     final question = questions[currentQuestion];
     final isCorrect = answer == question.getCorrectAnswer();
     final isSelected = selectedAnswer == index;
-    
+
     Color backgroundColor;
     Color borderColor;
     Color textColor;
     IconData? icon;
-    
+
     if (isAnswered) {
       if (isCorrect) {
         backgroundColor = const Color(0xFF10B981).withOpacity(0.1);
@@ -496,7 +479,7 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
         textColor = Colors.white;
       }
     }
-    
+
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       child: Material(
@@ -545,7 +528,7 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
                   ),
                 ),
                 const SizedBox(width: 16),
-                
+
                 /// Answer text
                 Expanded(
                   child: Text(
@@ -594,11 +577,10 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
             ),
           ),
           child: Text(
-            currentQuestion + 1 >= questions.length ? 'Finish Quiz' : 'Next Question',
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-            ),
+            currentQuestion + 1 >= questions.length
+                ? 'Finish Quiz'
+                : 'Next Question',
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700),
           ),
         ),
       ),
@@ -608,7 +590,7 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
   /// Modern results screen
   Widget _buildResultsScreen() {
     final percentage = (score / questions.length * 100).round();
-    
+
     return Center(
       child: Container(
         margin: const EdgeInsets.all(24),
@@ -616,10 +598,7 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.15),
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(
-            color: Colors.white.withOpacity(0.2),
-            width: 1,
-          ),
+          border: Border.all(color: Colors.white.withOpacity(0.2), width: 1),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
@@ -686,7 +665,11 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
   }
 
   /// Modern result button
-  Widget _buildResultButton(String text, IconData icon, VoidCallback onPressed) {
+  Widget _buildResultButton(
+    String text,
+    IconData icon,
+    VoidCallback onPressed,
+  ) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -721,33 +704,37 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
     final random = Random();
     questions = [];
     final availableCountries = List<Country>.from(controller.countries);
-    
+
     for (int i = 0; i < 10; i++) {
       if (availableCountries.isEmpty) break;
-      
+
       final quizType = quizTypes[random.nextInt(quizTypes.length)];
       final correctCountry = availableCountries.removeAt(
         random.nextInt(availableCountries.length),
       );
-      
+
       // Generate wrong answers
       final wrongAnswers = <Country>[];
       final remainingCountries = List<Country>.from(controller.countries);
-      remainingCountries.removeWhere((c) => c.name.common == correctCountry.name.common);
-      
+      remainingCountries.removeWhere(
+        (c) => c.name.common == correctCountry.name.common,
+      );
+
       while (wrongAnswers.length < 3 && remainingCountries.isNotEmpty) {
         final wrongCountry = remainingCountries.removeAt(
           random.nextInt(remainingCountries.length),
         );
         wrongAnswers.add(wrongCountry);
       }
-      
-      questions.add(QuizQuestion(
-        type: quizType,
-        correctCountry: correctCountry,
-        wrongAnswers: wrongAnswers,
-        correctAnswerIndex: random.nextInt(4),
-      ));
+
+      questions.add(
+        QuizQuestion(
+          type: quizType,
+          correctCountry: correctCountry,
+          wrongAnswers: wrongAnswers,
+          correctAnswerIndex: random.nextInt(4),
+        ),
+      );
     }
   }
 
@@ -768,13 +755,13 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
       // Quiz finished
       return;
     }
-    
+
     setState(() {
       currentQuestion++;
       isAnswered = false;
       selectedAnswer = null;
     });
-    
+
     // Reset and restart animations
     _fadeController.reset();
     _slideController.reset();
@@ -790,9 +777,9 @@ class _CountryQuizScreenState extends State<CountryQuizScreen>
       isAnswered = false;
       selectedAnswer = null;
     });
-    
+
     _generateQuestions();
-    
+
     // Reset animations
     _fadeController.reset();
     _slideController.reset();
@@ -853,8 +840,8 @@ class QuizQuestion {
       case QuizType.flagToCountry:
         return correctCountry.name.common;
       case QuizType.countryToCapital:
-        return correctCountry.capital.isNotEmpty 
-            ? correctCountry.capital.first 
+        return correctCountry.capital.isNotEmpty
+            ? correctCountry.capital.first
             : 'No capital';
       case QuizType.countryToPopulation:
         return correctCountry.population.toString();
@@ -870,7 +857,7 @@ class QuizQuestion {
   /// Get shuffled answers
   List<String> getShuffledAnswers() {
     final wrongAnswersStrings = <String>[];
-    
+
     // Generate wrong answers based on type
     for (final country in wrongAnswers) {
       String wrongAnswer;
@@ -879,8 +866,8 @@ class QuizQuestion {
           wrongAnswer = country.name.common;
           break;
         case QuizType.countryToCapital:
-          wrongAnswer = country.capital.isNotEmpty 
-              ? country.capital.first 
+          wrongAnswer = country.capital.isNotEmpty
+              ? country.capital.first
               : 'No capital';
           break;
         case QuizType.countryToPopulation:
@@ -897,10 +884,10 @@ class QuizQuestion {
       }
       wrongAnswersStrings.add(wrongAnswer);
     }
-    
+
     // Add correct answer at specified index
     wrongAnswersStrings.insert(correctAnswerIndex, getCorrectAnswer());
-    
+
     return wrongAnswersStrings;
   }
 }

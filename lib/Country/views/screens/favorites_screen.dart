@@ -18,7 +18,7 @@ class FavoritesScreen extends StatelessWidget {
           if (controller.favoriteCountries.isEmpty) {
             return _buildModernEmptyState(context);
           }
-          
+
           return RefreshIndicator(
             onRefresh: () async => controller.loadFavorites(),
             color: Theme.of(context).primaryColor,
@@ -29,19 +29,17 @@ class FavoritesScreen extends StatelessWidget {
                 SliverPadding(
                   padding: const EdgeInsets.all(20),
                   sliver: SliverGrid(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.75,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
-                    ),
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        final country = controller.favoriteCountries[index];
-                        return _buildModernCountryCard(country, index);
-                      },
-                      childCount: controller.favoriteCountries.length,
-                    ),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 0.75,
+                          crossAxisSpacing: 16,
+                          mainAxisSpacing: 16,
+                        ),
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      final country = controller.favoriteCountries[index];
+                      return _buildModernCountryCard(country, index);
+                    }, childCount: controller.favoriteCountries.length),
                   ),
                 ),
                 const SliverToBoxAdapter(
@@ -99,11 +97,7 @@ class FavoritesScreen extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              Icons.favorite_rounded,
-              color: Colors.red,
-              size: 20,
-            ),
+            Icon(Icons.favorite_rounded, color: Colors.red, size: 20),
             const SizedBox(width: 8),
             const Text(
               'My Favorites',
@@ -118,27 +112,33 @@ class FavoritesScreen extends StatelessWidget {
       ),
       centerTitle: true,
       actions: [
-        Obx(() => controller.favoriteCountries.isNotEmpty
-            ? Container(
-                margin: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 10,
-                      offset: const Offset(0, 2),
+        Obx(
+          () => controller.favoriteCountries.isNotEmpty
+              ? Container(
+                  margin: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.1),
+                        blurRadius: 10,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.clear_all_rounded,
+                      color: Colors.red,
                     ),
-                  ],
-                ),
-                child: IconButton(
-                  icon: const Icon(Icons.clear_all_rounded, color: Colors.red),
-                  onPressed: () => _showModernClearDialog(context, controller),
-                  tooltip: 'Clear All Favorites',
-                ),
-              )
-            : const SizedBox()),
+                    onPressed: () =>
+                        _showModernClearDialog(context, controller),
+                    tooltip: 'Clear All Favorites',
+                  ),
+                )
+              : const SizedBox(),
+        ),
       ],
     );
   }
@@ -442,11 +442,7 @@ class FavoritesScreen extends StatelessWidget {
         onPressed: () => Get.back(),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        icon: const Icon(
-          Icons.explore_rounded,
-          color: Colors.white,
-          size: 24,
-        ),
+        icon: const Icon(Icons.explore_rounded, color: Colors.white, size: 24),
         label: const Text(
           'Explore More',
           style: TextStyle(
@@ -468,9 +464,7 @@ class FavoritesScreen extends StatelessWidget {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         title: Row(
           children: [
             Container(
@@ -488,19 +482,13 @@ class FavoritesScreen extends StatelessWidget {
             const SizedBox(width: 12),
             const Text(
               'Clear All Favorites',
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 20,
-              ),
+              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
             ),
           ],
         ),
         content: const Text(
           'Are you sure you want to remove all countries from your favorites? This action cannot be undone.',
-          style: TextStyle(
-            fontSize: 16,
-            height: 1.4,
-          ),
+          style: TextStyle(fontSize: 16, height: 1.4),
         ),
         actions: [
           Container(

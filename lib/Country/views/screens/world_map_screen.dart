@@ -18,7 +18,7 @@ class _WorldMapScreenState extends State<WorldMapScreen>
   final controller = Get.find<CountryController>();
   String selectedRegion = 'All';
   List<Country> filteredCountries = [];
-  
+
   // Animation controllers
   late AnimationController _fadeController;
   late AnimationController _slideController;
@@ -29,7 +29,7 @@ class _WorldMapScreenState extends State<WorldMapScreen>
   void initState() {
     super.initState();
     filteredCountries = controller.countries;
-    
+
     /// Initialize animation controllers
     _fadeController = AnimationController(
       duration: const Duration(milliseconds: 600),
@@ -39,16 +39,17 @@ class _WorldMapScreenState extends State<WorldMapScreen>
       duration: const Duration(milliseconds: 800),
       vsync: this,
     );
-    
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _fadeController, curve: Curves.easeOut),
-    );
-    
+
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeOut));
+
     _slideAnimation = Tween<Offset>(
       begin: const Offset(0, 0.1),
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _slideController, curve: Curves.easeOut));
-    
+
     /// Start animations
     _fadeController.forward();
     _slideController.forward();
@@ -70,10 +71,7 @@ class _WorldMapScreenState extends State<WorldMapScreen>
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF667EEA),
-              Color(0xFF764BA2),
-            ],
+            colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
           ),
         ),
         child: SafeArea(
@@ -110,10 +108,7 @@ class _WorldMapScreenState extends State<WorldMapScreen>
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.2),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: Colors.white.withOpacity(0.3),
-            width: 1,
-          ),
+          border: Border.all(color: Colors.white.withOpacity(0.3), width: 1),
         ),
         child: IconButton(
           icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
@@ -135,10 +130,7 @@ class _WorldMapScreenState extends State<WorldMapScreen>
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [
-                Color(0xFF667EEA),
-                Color(0xFF764BA2),
-              ],
+              colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
             ),
           ),
         ),
@@ -149,10 +141,7 @@ class _WorldMapScreenState extends State<WorldMapScreen>
           decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.2),
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(
-              color: Colors.white.withOpacity(0.3),
-              width: 1,
-            ),
+            border: Border.all(color: Colors.white.withOpacity(0.3), width: 1),
           ),
           child: PopupMenuButton<String>(
             onSelected: _filterByRegion,
@@ -178,8 +167,8 @@ class _WorldMapScreenState extends State<WorldMapScreen>
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Icon(
-                              selectedRegion == region 
-                                  ? Icons.check_rounded 
+                              selectedRegion == region
+                                  ? Icons.check_rounded
                                   : Icons.public_rounded,
                               size: 18,
                               color: selectedRegion == region
@@ -191,8 +180,8 @@ class _WorldMapScreenState extends State<WorldMapScreen>
                           Text(
                             region,
                             style: TextStyle(
-                              fontWeight: selectedRegion == region 
-                                  ? FontWeight.w600 
+                              fontWeight: selectedRegion == region
+                                  ? FontWeight.w600
                                   : FontWeight.w500,
                               color: selectedRegion == region
                                   ? const Color(0xFF667EEA)
@@ -220,10 +209,7 @@ class _WorldMapScreenState extends State<WorldMapScreen>
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.15),
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: Colors.white.withOpacity(0.2),
-            width: 1,
-          ),
+          border: Border.all(color: Colors.white.withOpacity(0.2), width: 1),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
@@ -309,8 +295,16 @@ class _WorldMapScreenState extends State<WorldMapScreen>
   /// Build modern regions grid for global view
   Widget _buildModernRegionsGrid() {
     final regions = [
-      {'name': 'Africa', 'icon': Icons.landscape_rounded, 'color': Colors.orange},
-      {'name': 'Americas', 'icon': Icons.terrain_rounded, 'color': Colors.green},
+      {
+        'name': 'Africa',
+        'icon': Icons.landscape_rounded,
+        'color': Colors.orange,
+      },
+      {
+        'name': 'Americas',
+        'icon': Icons.terrain_rounded,
+        'color': Colors.green,
+      },
       {'name': 'Asia', 'icon': Icons.waves_rounded, 'color': Colors.blue},
       {'name': 'Europe', 'icon': Icons.castle_rounded, 'color': Colors.purple},
       {'name': 'Oceania', 'icon': Icons.water_rounded, 'color': Colors.teal},
@@ -378,10 +372,7 @@ class _WorldMapScreenState extends State<WorldMapScreen>
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      colors: [
-                        color,
-                        color.withOpacity(0.7),
-                      ],
+                      colors: [color, color.withOpacity(0.7)],
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
                     ),
@@ -397,7 +388,7 @@ class _WorldMapScreenState extends State<WorldMapScreen>
                   child: Icon(icon, size: 32, color: Colors.white),
                 ),
                 const SizedBox(width: 20),
-                
+
                 /// Region information
                 Expanded(
                   child: Column(
@@ -446,7 +437,7 @@ class _WorldMapScreenState extends State<WorldMapScreen>
                     ],
                   ),
                 ),
-                
+
                 /// Arrow indicator
                 Container(
                   padding: const EdgeInsets.all(8),
@@ -520,14 +511,15 @@ class _WorldMapScreenState extends State<WorldMapScreen>
                               child: CircularProgressIndicator(strokeWidth: 2),
                             ),
                           ),
-                          errorWidget: (context, error, stackTrace) => Container(
-                            color: const Color(0xFFF1F5F9),
-                            child: const Icon(
-                              Icons.flag_rounded,
-                              size: 32,
-                              color: Color(0xFF64748B),
-                            ),
-                          ),
+                          errorWidget: (context, error, stackTrace) =>
+                              Container(
+                                color: const Color(0xFFF1F5F9),
+                                child: const Icon(
+                                  Icons.flag_rounded,
+                                  size: 32,
+                                  color: Color(0xFF64748B),
+                                ),
+                              ),
                         ),
                       ),
                     ),
@@ -611,11 +603,7 @@ class _WorldMapScreenState extends State<WorldMapScreen>
         onPressed: () => _filterByRegion('All'),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        child: const Icon(
-          Icons.public_rounded,
-          color: Colors.white,
-          size: 28,
-        ),
+        child: const Icon(Icons.public_rounded, color: Colors.white, size: 28),
       ),
     );
   }
@@ -632,7 +620,7 @@ class _WorldMapScreenState extends State<WorldMapScreen>
             .toList();
       }
     });
-    
+
     // Restart animations for smooth transition
     _fadeController.reset();
     _slideController.reset();

@@ -22,7 +22,7 @@ class _PreferencesScreenState extends State<PreferencesScreen>
   @override
   void initState() {
     super.initState();
-    
+
     /// Initialize animation controllers
     _fadeController = AnimationController(
       duration: const Duration(milliseconds: 600),
@@ -32,16 +32,17 @@ class _PreferencesScreenState extends State<PreferencesScreen>
       duration: const Duration(milliseconds: 800),
       vsync: this,
     );
-    
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _fadeController, curve: Curves.easeOut),
-    );
-    
+
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _fadeController, curve: Curves.easeOut));
+
     _slideAnimation = Tween<Offset>(
       begin: const Offset(0, 0.1),
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _slideController, curve: Curves.easeOut));
-    
+
     /// Start animations
     _fadeController.forward();
     _slideController.forward();
@@ -66,10 +67,7 @@ class _PreferencesScreenState extends State<PreferencesScreen>
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF667EEA),
-              Color(0xFF764BA2),
-            ],
+            colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
           ),
         ),
         child: SafeArea(
@@ -128,10 +126,7 @@ class _PreferencesScreenState extends State<PreferencesScreen>
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.2),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: Colors.white.withOpacity(0.3),
-            width: 1,
-          ),
+          border: Border.all(color: Colors.white.withOpacity(0.3), width: 1),
         ),
         child: IconButton(
           icon: const Icon(Icons.arrow_back_rounded, color: Colors.white),
@@ -153,10 +148,7 @@ class _PreferencesScreenState extends State<PreferencesScreen>
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
-              colors: [
-                Color(0xFF667EEA),
-                Color(0xFF764BA2),
-              ],
+              colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
             ),
           ),
         ),
@@ -218,10 +210,7 @@ class _PreferencesScreenState extends State<PreferencesScreen>
             decoration: BoxDecoration(
               color: const Color(0xFFF8FAFC),
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: const Color(0xFFE2E8F0),
-                width: 1,
-              ),
+              border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
             ),
             child: Obx(
               () => Row(
@@ -235,11 +224,11 @@ class _PreferencesScreenState extends State<PreferencesScreen>
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(
-                      themeController.isDarkMode 
-                          ? Icons.dark_mode_rounded 
+                      themeController.isDarkMode
+                          ? Icons.dark_mode_rounded
                           : Icons.light_mode_rounded,
-                      color: themeController.isDarkMode 
-                          ? Colors.orange 
+                      color: themeController.isDarkMode
+                          ? Colors.orange
                           : Colors.amber,
                       size: 20,
                     ),
@@ -277,7 +266,9 @@ class _PreferencesScreenState extends State<PreferencesScreen>
                               colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
                             )
                           : null,
-                      color: themeController.isDarkMode ? null : const Color(0xFFE2E8F0),
+                      color: themeController.isDarkMode
+                          ? null
+                          : const Color(0xFFE2E8F0),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Switch(
@@ -286,7 +277,9 @@ class _PreferencesScreenState extends State<PreferencesScreen>
                       activeColor: Colors.white,
                       inactiveThumbColor: Colors.white,
                       inactiveTrackColor: Colors.transparent,
-                      trackOutlineColor: WidgetStateProperty.all(Colors.transparent),
+                      trackOutlineColor: WidgetStateProperty.all(
+                        Colors.transparent,
+                      ),
                     ),
                   ),
                 ],
@@ -301,10 +294,7 @@ class _PreferencesScreenState extends State<PreferencesScreen>
             decoration: BoxDecoration(
               color: const Color(0xFFF8FAFC),
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: const Color(0xFFE2E8F0),
-                width: 1,
-              ),
+              border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -324,7 +314,8 @@ class _PreferencesScreenState extends State<PreferencesScreen>
                     runSpacing: 16,
                     children: themeController.availableThemes.map((themeName) {
                       final color = themeController.getThemeColor(themeName);
-                      final isSelected = themeController.selectedTheme == themeName;
+                      final isSelected =
+                          themeController.selectedTheme == themeName;
 
                       return GestureDetector(
                         onTap: () => themeController.changeTheme(themeName),
@@ -334,10 +325,7 @@ class _PreferencesScreenState extends State<PreferencesScreen>
                           height: 64,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
-                              colors: [
-                                color,
-                                color.withOpacity(0.8),
-                              ],
+                              colors: [color, color.withOpacity(0.8)],
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
@@ -347,7 +335,9 @@ class _PreferencesScreenState extends State<PreferencesScreen>
                                 : null,
                             boxShadow: [
                               BoxShadow(
-                                color: color.withOpacity(isSelected ? 0.4 : 0.2),
+                                color: color.withOpacity(
+                                  isSelected ? 0.4 : 0.2,
+                                ),
                                 blurRadius: isSelected ? 12 : 6,
                                 offset: const Offset(0, 4),
                               ),
@@ -696,10 +686,7 @@ class _PreferencesScreenState extends State<PreferencesScreen>
       decoration: BoxDecoration(
         color: const Color(0xFFF8FAFC),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: const Color(0xFFE2E8F0),
-          width: 1,
-        ),
+        border: Border.all(color: const Color(0xFFE2E8F0), width: 1),
       ),
       child: Material(
         color: Colors.transparent,
@@ -734,10 +721,7 @@ class _PreferencesScreenState extends State<PreferencesScreen>
                       const SizedBox(height: 2),
                       Text(
                         subtitle,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[600],
-                        ),
+                        style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                       ),
                     ],
                   ),
@@ -759,7 +743,9 @@ class _PreferencesScreenState extends State<PreferencesScreen>
                       activeColor: Colors.white,
                       inactiveThumbColor: Colors.white,
                       inactiveTrackColor: Colors.transparent,
-                      trackOutlineColor: WidgetStateProperty.all(Colors.transparent),
+                      trackOutlineColor: WidgetStateProperty.all(
+                        Colors.transparent,
+                      ),
                     ),
                   )
                 else
@@ -787,9 +773,7 @@ class _PreferencesScreenState extends State<PreferencesScreen>
   void _showClearDialog(String title, String content, VoidCallback onConfirm) {
     Get.dialog(
       AlertDialog(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Text(
           title,
           style: const TextStyle(
@@ -797,12 +781,7 @@ class _PreferencesScreenState extends State<PreferencesScreen>
             color: Color(0xFF1E293B),
           ),
         ),
-        content: Text(
-          content,
-          style: TextStyle(
-            color: Colors.grey[600],
-          ),
-        ),
+        content: Text(content, style: TextStyle(color: Colors.grey[600])),
         actions: [
           TextButton(
             onPressed: () => Get.back(),
